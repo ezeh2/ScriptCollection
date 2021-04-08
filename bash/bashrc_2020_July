@@ -1,0 +1,31 @@
+##### begin added by Edward in July 2020
+# https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/
+# prompt: 
+PS1="[\D{%F}_\t]\u@\h# "
+alias ll="ls -l"
+
+# create directory if not already there
+[ "action_log" ] || mkdir action_log 
+# build path of logfile
+d=`date --iso-8601=seconds`
+log_file="action_log/audit_$d.log" 
+RED='\033[0;31m'
+WHITE='\033[1;37m'
+LIGHTGRAY='\033[0;37m'
+GREEN='\033[0;32m'
+echo -e "$GREEN start logging to: $log_file $LIGHTGRAY"
+
+# alias lc to search for commands
+alias lc="ls -t ~/action_log/*log | xargs grep '^\['"
+
+# disadvantage: vi does not work anymore
+exec > >(tee  "$log_file" )
+exec 2>&1
+
+# disadvantage: creates new process and strange characters
+#script --flush  "$log_file"
+# disadvante: creates endless loop
+#exec -c script --flush  "$log_file"
+# disadvantage: creates new process
+#bash -i 2>&1 | tee "$log_file" 
+##### end added by Edward in July 2020
