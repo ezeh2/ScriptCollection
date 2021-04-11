@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://gist.github.com/komasaru/789216cf9cf5e1aa339c#file-test_bash_cursor_2-sh-L9
+
 # Clear the screen
 tput clear
 
