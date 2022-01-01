@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # This scripts adds auditing to nmap.
+# Plase add following line to your .bashrc
+# alias nmap=~/git_repositories/ScriptCollection/bash/nmap_with_audit.sh
 
-# This script executes nmap with passing all parameters ($*).
+# nmap is invoked by passing all parameters ($*).
 # Everything is written to a logfile in nmap.logs.d/nn/nmap.log .
 # nn is derived from passed arguments.
 
 # build directory-name from passed arguments: everything except lettes and digits are converted to _.
-DIRNAME=nmap.logs.d/"$(echo -e $* | sed 's/[^0-9A-Za-z]/_/g')"
+DIRNAME=~edward/nmap.logs.d/"$(echo -e $* | sed 's/[^0-9A-Za-z]/_/g')"
 echo $DIRNAME
 
 # create directory nmap.logs.d if not already there
