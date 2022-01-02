@@ -19,6 +19,7 @@ echo $DIRNAME
 
 # write passed arguments to logfile
 echo "###" >> $DIRNAME/nmap.log
+date >> $DIRNAME/nmap.log
 echo "nmap $*" >> $DIRNAME/nmap.log
 echo "###" >> $DIRNAME/nmap.log
 
