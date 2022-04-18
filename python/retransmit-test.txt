@@ -1,0 +1,31 @@
+
+apt-get install scapy
+
+## Verbindungsauf (3-way-handshake) zu 192.168.1.24:65303
+
+a=IP(dst="192.168.1.24")/TCP(sport=1000,dport=65303,flags="S")
+b=IP(dst="192.168.1.24")/TCP(sport=1000,dport=65303,flags="A")
+sr(a);time.sleep(0.5);send(b);
+
+
+# alle Felder des objektes a ausgeben
+vars(a)
+# a als byte-array ausgeben
+hexdump(a)
+bytes(a)
+raw(a)
+
+
+Aus byte-array aus wireshark wieder ein IP-objekt machen
+--------------------------------------------------------
+
+In Wireshark context menü "as escaped string"
+
+
+>>> c=IP("\x45\x00" \
+... "\x00\x3a\x26\xd1\x40\x00\x40\x06\x8f\x92\xc0\xa8\x01\xf2\xc0\xa8" \
+... "\x01\x18\x8e\x5e\xff\x17\x1f\xf5\x79\xec\x49\xd3\x49\x8e\x80\x18" \
+... "\x01\xf6\x50\x88\x00\x00\x01\x01\x08\x0a\xf0\x0b\x91\x0b\x02\xe5" \
+... "\x1d\x48\x68\x61\x6c\x6c\x6f\x0a")
+>>> send(c)
+
