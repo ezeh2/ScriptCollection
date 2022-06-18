@@ -1,2 +1,4 @@
-/etc
-/var/log
+/etc;#dog
+/var/log;#dog
+/home;#cat
+/bla1;#squirrel
