@@ -1,0 +1,22 @@
+CDPATH=/c/work
+export CDPATH
+cd /c/work
+
+alias cdx_add='pwd >> ~/.completion_directories'
+
+alias cdx='cd'
+
+_cdx_completions()
+{
+  if [ "${#COMP_WORDS[@]}" == "2" ]; then
+	# first parameter is search term
+	search_term=${COMP_WORDS[1]}
+	# use grep if search term is defined
+	[[ $search_term ]] && COMPREPLY=($(cat ~/.completion_directories | grep -i $search_term))
+	# DON'T use grep if search term is NOT defined
+	[[ $search_term ]] || COMPREPLY=($(cat ~/.completion_directories))
+  fi
+} 
+
+
+complete -F _cdx_completions cdx
