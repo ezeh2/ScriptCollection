@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# https://stackoverflow.com/questions/31675750/git-log-show-which-branches-a-commit-applies-to
+# put this file in a directory which is listed in $PATH, e.g. C:\Users\ereutlinger\bin
+
+# 13. Okt. 2022, Edward Reutlinger
+
+# iterate over every commit and print names of branches this commit belongs to
+for COMMIT in $(git log --pretty=format:%H); do
+    echo "$COMMIT" 
+    git branch --contains "$COMMIT"
+done
+
