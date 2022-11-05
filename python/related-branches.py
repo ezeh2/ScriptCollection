@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import subprocess
 import numpy as np
 import argparse
@@ -49,20 +51,15 @@ def getMergeBases(cwd,myBranch):
             result = subprocess.run(["git","merge-base",myBranch,branch], cwd=_cwd,capture_output=True,encoding="UTF8")
             result_string = result.stdout
             lines = result_string.split("\n")
-            commitId = lines[0]
+            if result.returncode==0:
+                commitId = lines[0]
 
-            logEntryForCommitId = getLogEntries(cwd, commitId, 1)
+                logEntryForCommitId = getLogEntries(cwd, commitId, 1)
 
-            mergeBaseEntry = [branch]
-            mergeBaseEntry.extend(logEntryForCommitId[0])
+                mergeBaseEntry = [branch]
+                mergeBaseEntry.extend(logEntryForCommitId[0])
 
-            mergeBases.append(mergeBaseEntry)
-
-            '''
-            print(branch)
-            print(commitId)
-            print(logEntryForCommitId)
-            '''
+                mergeBases.append(mergeBaseEntry)
 
     return mergeBases
 
@@ -83,15 +80,19 @@ mergeBases = getMergeBases(_cwd, _branch_name)
 mergeBases_np = np.array(mergeBases)
 
 # sort by DateTime descending (column3)
-mergeBases_np= mergeBases_np[mergeBases_np[:,3].argsort()]
-mergeBases_np = np.flip(mergeBases_np,0)
-# print(mergeBases_np)
+if len(mergeBases_np.shape)==2:
+    mergeBases_np= mergeBases_np[mergeBases_np[:,3].argsort()]
+    mergeBases_np = np.flip(mergeBases_np,0)
+    # print(mergeBases_np)
 
+    print("\'"+_branch_name + "\'" + " was forked at")
 
-print("\'"+_branch_name + "\'" + " was forked at")
+    for mergeBase in mergeBases_np[:_count,:]:
+        # print(mergeBase)
+        print(mergeBase[3] + " from " + mergeBase[0])
 
-for mergeBase in mergeBases_np[:_count,:]:
-    # print(mergeBase)
-    print(mergeBase[3] + " from " + mergeBase[0])
+else:
+    print("no related branches found")
+
 
 print(" ")
