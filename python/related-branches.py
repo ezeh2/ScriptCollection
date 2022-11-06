@@ -7,7 +7,11 @@ import os
 
 def getLogEntries(cwd, branch_name,count):
 
-    result = subprocess.run(["git","log","-"+str(count),branch_name,'--format=%H;%s;%ad','--date=iso-strict'], cwd=_cwd,capture_output=True,encoding="UTF8")
+    # similar to but with autor and with date --oneline: 
+    # git log -3 --format="%C(auto)%h %cd %an %d %s" --date='format:%Y-%m-%d %H:%M'
+    # git config --global --add format.pretty "%C(auto)%h %cd %an %d %s"
+    # git config --global --replace-all log.date 'format:%Y-%m-%d %H:%M'
+    result = subprocess.run(["git","log","-"+str(count),branch_name,'--format=%H;%s;%ad','--date=format:%Y-%m-%d %H:%M'], cwd=_cwd,capture_output=True,encoding="UTF8")
     result_string = result.stdout
 
     # put git history into 2d-array
@@ -89,7 +93,7 @@ if len(mergeBases_np.shape)==2:
 
     for mergeBase in mergeBases_np[:_count,:]:
         # print(mergeBase)
-        print(mergeBase[3] + " from " + mergeBase[0])
+        print(mergeBase[1] + " " + mergeBase[3] + " from " + mergeBase[0])
 
 else:
     print("no related branches found")
