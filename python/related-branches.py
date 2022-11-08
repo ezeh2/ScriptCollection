@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+# use this if you want to run it on windows with CYGWIN or GIT BASH
+# https://en.wikipedia.org/wiki/Shebang_(Unix)
+#!python
+
 import subprocess
 import numpy as np
 import argparse
