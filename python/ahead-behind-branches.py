@@ -109,9 +109,9 @@ class RelatedBranchesFinder:
 def sortByColumn0(item):
     return item[0]*1000000+item[1]
 
-parser = argparse.ArgumentParser(description='Find related branches')
-parser.add_argument('branch', type=str,help='name of branch to look for related branches')  
-parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get set of branches to look in')  
+parser = argparse.ArgumentParser(description='calculate number of commits ahead begin every branch (reference)')
+parser.add_argument('branch', type=str,help='name of branch to calculate ahead and behind commits')  
+parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get branches to calculate ahead begind against')  
 
 args = parser.parse_args()
 
