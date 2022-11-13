@@ -46,7 +46,7 @@ class RelatedBranchesFinder:
 
         branches = []
 
-        result = subprocess.run(["git","for-each-ref","refs/remotes/**","--format=%(refname)"],cwd=self.cwd,capture_output=True,encoding="UTF8")
+        result = subprocess.run(["git","for-each-ref",self.relatedBranchNamesWildcard,"--format=%(refname)"],cwd=self.cwd,capture_output=True,encoding="UTF8")
 
         if result.returncode==0:        
             result_string = result.stdout
@@ -111,17 +111,20 @@ def sortByColumn0(item):
 
 parser = argparse.ArgumentParser(description='Find related branches')
 parser.add_argument('branch', type=str,help='name of branch to look for related branches')  
+parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get set of branches to look in')  
 
 args = parser.parse_args()
 
 
 
 
-relatedBranchesFinder = RelatedBranchesFinder("")
+relatedBranchesFinder = RelatedBranchesFinder(args.p)
 aheadOfBranches = relatedBranchesFinder.getAheadBehindOfBranch(args.branch)
 
 aheadOfBranches.sort(key=sortByColumn0)
 
+print(" ")
+print("branch pattern: " + args.p)
 print(" ")
 print("branch " + args.branch +" is")
 for aheadOfBranch in aheadOfBranches:
