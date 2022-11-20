@@ -24,7 +24,7 @@ class RelatedBranchesFinder:
                     # print(commitId)
                     self.getBranchesContains(commitId)
         else:
-            print("log, error: " + result.returncode)
+            print("log, error: " + str(result.returncode))
                         
     def getBranchesContains(self,commitId):
         result = subprocess.run(["git","branch","-v","-r","--contains",commitId],cwd=self.cwd,capture_output=True,encoding="UTF8")
@@ -162,6 +162,10 @@ args = parser.parse_args()
 
 
 relatedBranchesFinder = RelatedBranchesFinder(args.p)
+
+# relatedBranchesFinder.log('origin/develop',20)
+
+
 aheadOfBranches = relatedBranchesFinder.getAheadBehindOfBranch(args.branch)
 
 aheadOfBranches.sort(key=sortByColumn0)
