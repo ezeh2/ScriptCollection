@@ -34,6 +34,7 @@ class RelatedBranchesFinder:
         else:
             print("getBranchesContains, error: " + result.returncode)
 
+    # returns list of all remote branches of git-repostory
     def getBranchesRemote(self):
         # result = subprocess.run(["git","branch","-r"],cwd=self.cwd,capture_output=True,encoding="UTF8")
 
@@ -59,6 +60,15 @@ class RelatedBranchesFinder:
 
         return branches
 
+    # use this instead of getBranchesRemote(..)
+    # to improve performance
+    def getExampleBranchesRemote(self):
+
+        branches = []
+
+        return branches        
+
+
     def getLineCount(delf,s):
 
         lineCount = 0
@@ -70,12 +80,23 @@ class RelatedBranchesFinder:
         
         return  lineCount;
 
+    def getLines(delf,s):
+
+        retLines = []        
+
+        lines = s.split("\n")
+        for line in lines:
+            if len(line)>0:
+                retLines.append(line)
+        
+        return  retLines
 
     def getAheadBehindOfBranch(self,branchName):
 
         aheadBehindOfBranches = []
 
         remoteBranches = self.getBranchesRemote()
+        # remoteBranches = self.getExampleBranchesRemote()
         for remoteBranche in remoteBranches:
 
             # https://stackoverflow.com/questions/20433867/git-ahead-behind-info-between-master-and-branch
@@ -85,24 +106,46 @@ class RelatedBranchesFinder:
             # git log origin/master..origin/feat/weakPasswordCode  | wc -l
 
             aheadCount = 0
-            result1 = subprocess.run(["git","log",""+branchName,"^"+remoteBranche],cwd=self.cwd,capture_output=True,encoding="UTF8")
+            result1 = subprocess.run(["git","log","--first-parent",""+branchName,"^"+remoteBranche],cwd=self.cwd,capture_output=True,encoding="UTF8")
             if result1.returncode==0:        
                 aheadCount = self.getLineCount(result1.stdout)
-
             else:
-                print("getAheadBehindOfBranch, error: " + result1.returncode)
+                print("getAheadBehindOfBranch, result1.returncode: " + str(result1.returncode))
+                print("remoteBranche: " + remoteBranche)
 
             behindCount = 0
-            result2 = subprocess.run(["git","log","^"+branchName,""+remoteBranche],cwd=self.cwd,capture_output=True,encoding="UTF8")
+            result2 = subprocess.run(["git","log","--first-parent","^"+branchName,""+remoteBranche],cwd=self.cwd,capture_output=True,encoding="UTF8")
             if result2.returncode==0:        
                 behindCount = self.getLineCount(result2.stdout)
-
             else:
-                print("getAheadBehindOfBranch, error: " + result2.returncode)
+                print("getAheadBehindOfBranch, result2.returncode: " + str(result2.returncode))
+                print("remoteBranche: " + remoteBranche)
 
+            mergeBase = ""
+            result3 = subprocess.run(["git","merge-base",branchName,remoteBranche],cwd=self.cwd,capture_output=True,encoding="UTF8")
+            if result3.returncode==0:        
+                mergeBaseLines = self.getLines(result3.stdout)
+                if len(mergeBaseLines)>0:
+                    mergeBase = mergeBaseLines[0]
+            else:
+                print("getAheadBehindOfBranch, result3.returncode: " + str(result3.returncode))
+                print("remoteBranche: " + remoteBranche)
 
-            aheadBehindOfBranches.append([aheadCount,behindCount,remoteBranche])                
+            mergeBaseLogLine = ""
+            result4 = subprocess.run(["git","log","-1",mergeBase,'--format=%H;%ad;%an;%cd;%cn;%s','--date=format:%Y-%m-%d %H:%M'], cwd=self.cwd,capture_output=True,encoding="UTF8")
+            if result4.returncode==0:        
+                logLines = self.getLines(result4.stdout)
+                if len(logLines)>0:
+                    mergeBaseLogLine = logLines[0]
+            else:
+                print("getAheadBehindOfBranch, result4.returncode: " + str(result4.returncode))
+                print("remoteBranche: " + remoteBranche)
 
+            aheadBehindOfBranches.append([aheadCount,behindCount,remoteBranche,mergeBase, mergeBaseLogLine])      
+            # print(str(aheadCount) + " commits ahead and " + str(behindCount) +" commits behind " + remoteBranche + " merge-base logline: " + mergeBaseLogLine)          
+
+        # print('###')
+        # print('###')
         return aheadBehindOfBranches
 
 
@@ -128,7 +171,7 @@ print("branch pattern: " + args.p)
 print(" ")
 print("branch " + args.branch +" is")
 for aheadOfBranch in aheadOfBranches:
-    print(str(aheadOfBranch[0]) + " commits ahead and " + str(aheadOfBranch[1]) +" commits behind " + aheadOfBranch[2])
+    print(str(aheadOfBranch[0]) + " commits ahead and " + str(aheadOfBranch[1]) +" commits behind " + aheadOfBranch[2] + " merge-base logline: " + aheadOfBranch[4])
 
 
 
