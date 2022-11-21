@@ -153,7 +153,7 @@ parser.add_argument('branch', type=str,help='name of branch to calculate ahead a
 parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get branches')  
 parser.add_argument('-l', type=int,required=False,default=20,help='number of entries of commit-log of branch to check for related branches')  
 parser.add_argument('-b', type=int,required=False,default=4,help='number of branches to extract from commit-log of branch')  
-
+parser.add_argument('-m', action='store_true',help='show merge logline')  
 
 args = parser.parse_args()
 relatedBranchNamesWildcard = args.p
@@ -176,7 +176,10 @@ aheadOfBranches.sort(key=sortByColumn0)
 print(" ")
 print("branch " + args.branch +" is")
 for aheadOfBranch in aheadOfBranches:
-    print(str(aheadOfBranch[0]) + " commits ahead and " + str(aheadOfBranch[1]) +" commits behind " + aheadOfBranch[2] + " merge-base logline: " + aheadOfBranch[4])
+    print(str(aheadOfBranch[0]) + " commits ahead and " + str(aheadOfBranch[1]) +" commits behind " + aheadOfBranch[2])
+    if args.m:
+        print("   " + aheadOfBranch[4])
+        print("")
 
 
 
