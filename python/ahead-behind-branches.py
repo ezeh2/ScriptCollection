@@ -6,12 +6,13 @@ import argparse
 import os
 
 class RelatedBranchesFinder:
-    def __init__(self,relatedBranchNamesWildcard) -> None:
-        self.relatedBranchNamesWildcard = relatedBranchNamesWildcard
+    def __init__(self) -> None:
         self.cwd = os.curdir
 
-    def log(self,branchname, count):
-        result = subprocess.run(["git","log","-"+str(count),branchname,'--format=%H;%s;%ad','--date=format:%Y-%m-%d %H:%M'], cwd=self.cwd,capture_output=True,encoding="UTF8")
+    # iterates over log-entries until more than branchCounts are found
+    # and this is returned
+    def getBranchesFromLog(self,branchname, logCount, branchCount):
+        result = subprocess.run(["git","log","-"+str(logCount),branchname,'--format=%H;%s;%ad','--date=format:%Y-%m-%d %H:%M'], cwd=self.cwd,capture_output=True,encoding="UTF8")
         if result.returncode==0:        
             result_string = result.stdout
             lines = result_string.split("\n")
@@ -20,22 +21,28 @@ class RelatedBranchesFinder:
                     splits = line.split(";")
                     commitId = splits[0]
 
-                    print(line)                
+                    # print(line)                
                     # print(commitId)
-                    self.getBranchesContains(commitId)
+                    branchesContainsList = self.getBranchesContains(commitId)
+                    if len(branchesContainsList) >= branchCount:
+                        return branchesContainsList
         else:
             print("log, error: " + str(result.returncode))
                         
     def getBranchesContains(self,commitId):
-        result = subprocess.run(["git","branch","-v","-r","--contains",commitId],cwd=self.cwd,capture_output=True,encoding="UTF8")
-        if result.returncode==0:        
-            result_string = result.stdout
-            print(result_string)
+        result = subprocess.run(["git","branch","-r","--contains",commitId],cwd=self.cwd,capture_output=True,encoding="UTF8")
+        if result.returncode==0 and result.stdout != None:        
+            branchesContainsList = self.getLines(result.stdout)
+            branchesContainsList2 = []
+            for item in branchesContainsList:
+                if '->' not in item:
+                    branchesContainsList2.append(item.strip())
+            return branchesContainsList2
         else:
             print("getBranchesContains, error: " + result.returncode)
 
     # returns list of all remote branches of git-repostory
-    def getBranchesRemote(self):
+    def getBranchesRemote(self, relatedBranchNamesWildcard):
         # result = subprocess.run(["git","branch","-r"],cwd=self.cwd,capture_output=True,encoding="UTF8")
 
         # alternative to git branch: 
@@ -47,7 +54,7 @@ class RelatedBranchesFinder:
 
         branches = []
 
-        result = subprocess.run(["git","for-each-ref",self.relatedBranchNamesWildcard,"--format=%(refname)"],cwd=self.cwd,capture_output=True,encoding="UTF8")
+        result = subprocess.run(["git","for-each-ref",relatedBranchNamesWildcard,"--format=%(refname)"],cwd=self.cwd,capture_output=True,encoding="UTF8")
 
         if result.returncode==0:        
             result_string = result.stdout
@@ -59,15 +66,6 @@ class RelatedBranchesFinder:
             print("getBranchesRemote, error: " + result.returncode)
 
         return branches
-
-    # use this instead of getBranchesRemote(..)
-    # to improve performance
-    def getExampleBranchesRemote(self):
-
-        branches = []
-
-        return branches        
-
 
     def getLineCount(delf,s):
 
@@ -91,12 +89,10 @@ class RelatedBranchesFinder:
         
         return  retLines
 
-    def getAheadBehindOfBranch(self,branchName):
+    def getAheadBehindOfBranch(self,branchName,remoteBranches):
 
         aheadBehindOfBranches = []
 
-        remoteBranches = self.getBranchesRemote()
-        # remoteBranches = self.getExampleBranchesRemote()
         for remoteBranche in remoteBranches:
 
             # https://stackoverflow.com/questions/20433867/git-ahead-behind-info-between-master-and-branch
@@ -154,24 +150,29 @@ def sortByColumn0(item):
 
 parser = argparse.ArgumentParser(description='calculate number of commits ahead begin every branch (reference)')
 parser.add_argument('branch', type=str,help='name of branch to calculate ahead and behind commits')  
-parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get branches to calculate ahead begind against')  
+parser.add_argument('-p', type=str,required=False,default='refs/remotes/**',help='pattern to get branches')  
+parser.add_argument('-l', type=int,required=False,default=20,help='number of entries of commit-log of branch to check for related branches')  
+parser.add_argument('-b', type=int,required=False,default=4,help='number of branches to extract from commit-log of branch')  
+
 
 args = parser.parse_args()
+relatedBranchNamesWildcard = args.p
+logCount = args.l
+branchCount = args.b
 
+relatedBranchesFinder = RelatedBranchesFinder()
 
+# this is slow if there are many branches in repository
+# branches = relatedBranchesFinder.getBranchesRemote(relatedBranchNamesWildcard)
+# print("branch pattern: " + relatedBranchNamesWildcard)
 
+branches = relatedBranchesFinder.getBranchesFromLog(args.branch,logCount,branchCount)
+# print(branches)
 
-relatedBranchesFinder = RelatedBranchesFinder(args.p)
-
-# relatedBranchesFinder.log('origin/develop',20)
-
-
-aheadOfBranches = relatedBranchesFinder.getAheadBehindOfBranch(args.branch)
+aheadOfBranches = relatedBranchesFinder.getAheadBehindOfBranch(args.branch,branches)
 
 aheadOfBranches.sort(key=sortByColumn0)
 
-print(" ")
-print("branch pattern: " + args.p)
 print(" ")
 print("branch " + args.branch +" is")
 for aheadOfBranch in aheadOfBranches:
