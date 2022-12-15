@@ -1,0 +1,4 @@
+
+command = input()
+print(command)
+
