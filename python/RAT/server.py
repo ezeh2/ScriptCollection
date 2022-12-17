@@ -8,6 +8,9 @@ PORT_NUMBER = 60080 # Listening port number
 class MyHandler(BaseHTTPRequestHandler): # MyHandler defines what we should do when we receive a GET/POST request
                                                           # from the client / target
 
+    def log_message(format,a,b,c,d):
+        # log nothing
+        pass
     def do_GET(s):
         #If we got a GET request, we will:- 
         print("pleae enter command")
