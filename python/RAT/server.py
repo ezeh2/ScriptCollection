@@ -27,7 +27,8 @@ class MyHandler(BaseHTTPRequestHandler): # MyHandler defines what we should do w
         length = int(s.headers['Content-Length']) #Define the length which means how many bytes the HTTP POST data contains, the length
                                                      #value has to be integer 
         postVar = s.rfile.read(length) # Read then print the posted data
-        print(postVar)
+        print(postVar.decode('utf-8'))
+
 
 
 

