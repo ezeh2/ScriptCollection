@@ -1,0 +1,74 @@
+Yes, this can be done with awk. I would like to present my solution piece by piece.
+
+#Step 1: extract everything BEGIN CERTIFICATE and END CERTIFICATE
+
+Only write lines between "BEGIN CERTIFICATE" and "END CERTIFICATE" to output:
+
+```
+awk '
+/BEGIN CERTIFICATE/,/END CERTIFICATE/ {
+print $0
+}
+' out.txt
+```
+
+#Step 2: extract line containing CN
+
+selects line which contains CN (e.g.  0 s:CN = www.openssl.org)
+
+```
+awk '
+/^ [0-9]+ s:.*CN = / {
+print $0
+}
+' out.txt
+```
+
+This yields output:
+
+```
+ 0 s:CN = www.openssl.org
+ 1 s:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+```
+
+#Step 3: extract content of field CN
+
+```
+awk '
+BEGIN {
+# change field separator, so that $2 returns everything after "CN = "
+FS="CN = "
+}
+# selects line which contains CN (e.g.  0 s:CN = www.openssl.org)
+/^ [0-9]+ s:.*CN = / {
+# use CN (e.g. www.openssl.org) as filename
+print $2
+}
+' out.txt
+```
+
+This yields output:
+```
+www.openssl.org
+Let's Encrypt Authority X3
+```
+
+#Step 4: Full Solution
+This creates files **Let's Encrypt Authority X3.cer** and **www.openssl.org.cer**:
+```
+awk '
+BEGIN {
+# change field separator, so that $2 returns everything after "CN = "
+FS="CN = "
+}
+# selects line which contains CN (e.g.  0 s:CN = www.openssl.org)
+/^ [0-9]+ s:.*CN = / {
+# use CN (e.g. www.openssl.org) as filename
+filename=$2".cer"
+}
+# write all lines between "BEGIN CERTIFICATE" and "END CERTIFICATE" to filename
+/BEGIN CERTIFICATE/,/END CERTIFICATE/ {
+print $0 > filename
+}
+' out.txt
+```

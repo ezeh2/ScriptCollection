@@ -1,0 +1,38 @@
+
+I would like to get all certificates of the certicate chain of a http-site.
+Using openssl I connect to the http-site and store output to file **out.txt**:
+
+    openssl s_client -connect www.openssl.org:443 -showcerts > out.txt
+	
+The content of **out.txt** looks like below. It contains two certificates:
+```
+...
+ 0 s:CN = www.openssl.org
+   i:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+-----BEGIN CERTIFICATE-----
+MIIFVTCCBD2gAwIBAgISAwk9QUiwVmoQAtcCLKybaK7yMA0GCSqGSIb3DQEBCwUA
+...
+mQBom1EISBOiNyu5koR6iRZcXsn6x/4kwA==
+-----END CERTIFICATE-----
+ 1 s:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+   i:O = Digital Signature Trust Co., CN = DST Root CA X3
+-----BEGIN CERTIFICATE-----
+MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
+...
+KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==
+-----END CERTIFICATE-----
+---
+...
+```
+Now I want to store every certificate in a file ending with extension **.cer**.
+For the above example the files **Let's Encrypt Authority X3.cer** and **www.openssl.org.cer** should be created. 
+
+Using command **openssl x509** I was only able to store first certifcate contained in **out.txt**.
+
+    cat out.txt | openssl x509 > www.openssl.org.cer
+
+But I want to store all *certifcates* contained in **out.txt** not just the first one.
+
+Can this be done with **openssl** somehow ? Or with **awk** ?
+
+

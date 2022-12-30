@@ -1,0 +1,43 @@
+
+
+
+Redirect output of openssl into file `stackoverflow.txt`.
+
+    openssl s_client -connect stackoverflow.com:443 -showcerts > stackoverflow.txt
+
+The newly generated **stackoverflow.txt** contains the output of **s_client** including 
+the certificates of *stackexchange.com* and *Let's Encrypt Authority X3*. The certificates
+are in format *BASE64 encoded X509*.
+
+This is what you need to do get the certificates into separate files.
+Open `stackoverflow.txt` with a texteditor and locate the lines beginning with `-----`
+and copy the certifcate information including lines `-----` into 2 separate files `stackexchange_com.pem`
+and `lets_encrypt.pem`
+
+-----BEGIN CERTIFICATE-----
+MIIHJjCCBg6gAwIBAgISA69Gnmaniop4xXZfJ5UjUouRMA0GCSqGSIb3DQEBCwUA
+...
+-----END CERTIFICATE-----
+ 1 s:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+   i:O = Digital Signature Trust Co., CN = DST Root CA X3
+-----BEGIN CERTIFICATE-----
+MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
+...
+-----END CERTIFICATE-----
+
+Then you show content of certificates with this:
+
+    openssl x509 -in stackexchange_com.pem -inform PEM -text
+    openssl x509 -in lets_encrypt.pem -inform PEM -text
+	
+
+
+	
+DES3 encryption
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc
+
+DES3 decryption
+openssl des3 -d -salt -in file1.des3 -out file2.txt -pass pass:abc
+
+
+Dafs+@ww2

@@ -1,0 +1,11 @@
+openssl s_client -connect stackoverflow.com:443 -showcerts > stackoverflow.txt
+
+stackoverflow.txt
+--> stackexchange_com.pem
+--> lets_encrypt.pem
+
+openssl x509 -in stackexchange_com.pem -inform PEM -text
+openssl x509 -in lets_encrypt.pem -inform PEM -text
+openssl x509 -in stackexchange_com_lets_encrypt.pem -inform PEM -text
+openssl x509 -in StackOverflow_base64_encoded_x509.cer -inform PEM -text
+

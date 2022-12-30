@@ -1,0 +1,7 @@
+
+
+openssl req  -new -sha256 -nodes -newkey rsa:4096 -keyout CA.key -out CA.csr
+openssl x509 -req -sha256 -extfile x509.ext -extensions ca     -in CA.csr -signkey CA.key -days 1095 -out CA.cer
+openssl req  -new -sha256 -nodes -newkey rsa:4096 -keyout www.example.com.key -out www.example.com.csr
+openssl x509 -req -sha256 -extfile x509.ext -extensions server -CA CA.cer -CAkey CA.key -days 730 -CAcreateserial -CAserial CA.srl -in www.example.com.csr -out www.example.com.cer
+

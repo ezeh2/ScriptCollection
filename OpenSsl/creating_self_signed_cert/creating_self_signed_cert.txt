@@ -1,0 +1,30 @@
+https://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
+
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+openssl x509 -purpose -in cert.pem -inform PEM
+
+Certificate purposes:
+SSL client : Yes
+SSL client CA : Yes
+SSL server : Yes
+SSL server CA : Yes
+Netscape SSL server : Yes
+Netscape SSL server CA : Yes
+S/MIME signing : Yes
+S/MIME signing CA : Yes
+S/MIME encryption : Yes
+S/MIME encryption CA : Yes
+CRL signing : Yes
+CRL signing CA : Yes
+Any Purpose : Yes
+Any Purpose CA : Yes
+OCSP helper : Yes
+OCSP helper CA : Yes
+Time Stamp signing : No
+Time Stamp signing CA : Yes
+-----BEGIN CERTIFICATE-----
+MIIFzTCCA7WgAwIBAgIUVkavem8ORIVd2vr9kSsMOt5AMiwwDQYJKoZIhvcNAQEL
+...
+
+

@@ -1,0 +1,52 @@
+openssl x509 -purpose -in youtube.cert -inform PEM
+
+Certificate purposes:
+SSL client : No
+SSL client CA : No
+SSL server : Yes
+SSL server CA : No
+Netscape SSL server : No
+Netscape SSL server CA : No
+S/MIME signing : No
+S/MIME signing CA : No
+S/MIME encryption : No
+S/MIME encryption CA : No
+CRL signing : No
+CRL signing CA : No
+Any Purpose : Yes
+Any Purpose CA : Yes
+OCSP helper : Yes
+OCSP helper CA : No
+Time Stamp signing : No
+Time Stamp signing CA : No
+-----BEGIN CERTIFICATE-----
+MIIJQzCCCCugAwIBAgIRAPImGzqUmwW1CAAAAAAfEcYwDQYJKoZIhvcNAQELBQAw
+...
+
+openssl x509 -purpose -in GlobalSign.cer -inform PEM
+
+Certificate purposes:
+SSL client : No
+SSL client CA : Yes
+SSL server : No
+SSL server CA : Yes
+Netscape SSL server : No
+Netscape SSL server CA : Yes
+S/MIME signing : No
+S/MIME signing CA : Yes
+S/MIME encryption : No
+S/MIME encryption CA : Yes
+CRL signing : Yes
+CRL signing CA : Yes
+Any Purpose : Yes
+Any Purpose CA : Yes
+OCSP helper : Yes
+OCSP helper CA : Yes
+Time Stamp signing : No
+Time Stamp signing CA : Yes
+-----BEGIN CERTIFICATE-----
+MIIDujCCAqKgAwIBAgILBAAAAAABD4Ym5g0wDQYJKoZIhvcNAQEFBQAwTDEgMB4G
+...
+
+
+

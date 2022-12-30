@@ -1,0 +1,129 @@
+
+-showcerts                 Show all certificates sent by the server
+
+-keylogfile outfile        Write TLS secrets to file
+ -msgfile outfile           File to send output of -msg or -trace, instead of stdout
+ -writerand outfile         Write random data to the specified file
+ -sess_out outfile          File to write SSL session to
+ -keymatexport val          Export keying material using label
+ -keymatexportlen +int      Export len bytes of keying material (default 20)
+ 
+  -ssl_config val            Use specified configuration file
+
+https://www.openssl.org/docs/man1.1.1/man1/openssl-s_client.html
+
+openssl s_client -connect www.openssl.org:443
+openssl s_client -connect www.openssl.org:443 -showcerts
+openssl s_client -connect www.openssl.org:443 -keylogfile keylogfile.txt
+openssl s_client -connect www.openssl.org:443 -msgfile msgfile.txt
+openssl s_client -connect www.openssl.org:443 -writerand writerand.txt
+openssl s_client -connect www.openssl.org:443 -sess_out sess_out.txt
+openssl s_client -connect www.openssl.org:443 -keymatexport keymatexport.txt
+
+
+https://support.quovadisglobal.com/kb/a37/what-is-pem-format.aspx
+PEM or Privacy Enhanced Mail is a Base64 encoded DER certificate.  
+PEM certificates are frequently used for web servers as they can easily be translated 
+into readable data using a simple text editor.  Generally when a PEM encoded file is 
+opened in a text editor, it contains very distinct headers and footers.  
+Below are some examples of different files in PEM format.
+
+-----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- show a certificate file in PEM format.
+
+
+### without "-showcerts"
+
+CONNECTED(00000003)
+depth=2 O = Digital Signature Trust Co., CN = DST Root CA X3
+verify return:1
+depth=1 C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+verify return:1
+depth=0 CN = www.openssl.org
+verify return:1
+---
+Certificate chain
+ 0 s:CN = www.openssl.org
+   i:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+ 1 s:C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+   i:O = Digital Signature Trust Co., CN = DST Root CA X3
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIFVTCCBD2gAwIBAgISAwk9QUiwVmoQAtcCLKybaK7yMA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xOTExMTYwMDIwMzJaFw0y
+MDAyMTQwMDIwMzJaMBoxGDAWBgNVBAMTD3d3dy5vcGVuc3NsLm9yZzCCASIwDQYJ
+KoZIhvcNAQEBBQADggEPADCCAQoCggEBAL2rHNy6W/gZClgvGe4ZQnW5VS8s01dT
+7Uor7z2Uh+RguFs3/h9NN6hzbYda4Si7Zh66bafjlMLaP5p3Z7W6kPKJ3Kv9YC55
+41TRmyy+y9b+COkvptM4PiMXThK0KmUoPGerKcNxrBMc9/Ys4oR6rYxRk8nZCmHx
+O6ySnJ133RRlpaPMN5xZhDwVpepjglDtlAEwlFsflxKHKJpJGApHqte6j2Pk4n8v
+eIdhVfLZRcrl6wqHYNZTWEG9/2+nB8ZbO3Ed+9U5/tgECYgnvOMiNAq/RC/Ne8zv
+nAMdbVqknyUcxOueG2k04qNaQieh72PJvRLeXtasigQiz8ybBYESC50CAwEAAaOC
+AmMwggJfMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYB
+BQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUfr8b0hpqhGDIhwULz35mIL7t
+VOUwHwYDVR0jBBgwFoAUqEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEE
+YzBhMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQu
+b3JnMC8GCCsGAQUFBzAChiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQu
+b3JnLzAaBgNVHREEEzARgg93d3cub3BlbnNzbC5vcmcwTAYDVR0gBEUwQzAIBgZn
+gQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5s
+ZXRzZW5jcnlwdC5vcmcwggEDBgorBgEEAdZ5AgQCBIH0BIHxAO8AdgBep3P531bA
+57U2SH3QSeAyepGaDIShEhKEGHWWgXFFWAAAAW5xzB0QAAAEAwBHMEUCIQCWXGVx
+R9y8feU3VPdZcI6YQbUy/QYz3NlY5+lC8HJK7AIgcyJ0RjNnIYy02aSZSkZgZL2X
+m4zcRk7Gkr1x4oQE1PoAdQAHt1wb5X1o//Gwxh0jFce65ld8V5S3au68YToaadOi
+HAAAAW5xzB0vAAAEAwBGMEQCIB9UHwKo7PPgomTlUcKB51GsCAWqT6NyZqBufROB
+Cf6dAiAfRwDixODqXiY0j/II7NdAiTEfeYctCO5ueRIJfl5+pzANBgkqhkiG9w0B
+AQsFAAOCAQEAY1kJVbPzkwrSvTaHKptpO83O7/yjS1Ux1MDid33w6phkSKlIz4h3
+sXcLsqy73vmtoppKrM5VTmf2gLKkGMLm0zqQkXAVjNxegUBPjRXyRGLfvgqDtVOt
+mDkTOuWtyJVpu4jkjnWIoVDPvdxd898OhmGHAdKl5ThwvONP/QbHiPB6PlqGiZlQ
+/zXNg6/n0ETgqW6ZQg64wKMX6zD7/8sxoeElwdrG8j4QLW1KmPYKfbZ7r0EfjboB
+mJcwoEiyAfAdzGSJBEYaZROUBNXzO3ZARzUZmBQk4pjOM2h9Yn7UGtPbwfyTJvDn
+mQBom1EISBOiNyu5koR6iRZcXsn6x/4kwA==
+-----END CERTIFICATE-----
+subject=CN = www.openssl.org
+
+issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+
+---
+No client certificate CA names sent
+Peer signing digest: SHA256
+Peer signature type: RSA-PSS
+Server Temp Key: ECDH, P-256, 256 bits
+---
+SSL handshake has read 3220 bytes and written 433 bytes
+Verification: OK
+---
+New, TLSv1.2, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES256-GCM-SHA384
+    Session-ID: 635E4BEBF7DEA5741F3D3616B80240AFC069B2B47655E7D56F659A1F53523322
+    Session-ID-ctx:
+    Master-Key: 1191871EC7DC0DEAB54D15C53677EB73EC80374E2F024D3E54EF21B203A70137BB6                                                                                     7D78B3E00C72B6171CCA9DE7DCAD6
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - 00 00 0c 1e d9 78 f3 b0-14 eb cf 86 be 4a 87 1e   .....x.......J..
+    0010 - 81 63 18 cb ce be 0b cf-18 1e 36 8e f2 ce 3b c4   .c........6...;.
+    0020 - 0d 64 49 e0 5e 1e dc 52-be f0 82 06 3e e6 b2 8b   .dI.^..R....>...
+    0030 - ca d7 42 88 b4 50 71 c6-45 2c a2 e9 23 91 ba 12   ..B..Pq.E,..#...
+    0040 - bf 22 d7 bf 27 96 ef d2-41 51 4c 9d d2 3f a4 d2   ."..'...AQL..?..
+    0050 - 35 e7 97 70 8b 0e a0 ae-ed e8 e5 57 0a 94 17 5b   5..p.......W...[
+    0060 - 6a 08 4e 96 3d 9a f1 05-7d d8 93 30 c9 2e 2f 50   j.N.=...}..0../P
+    0070 - 52 cd 33 05 d4 82 f4 06-a4 d3 3e fd b2 d4 75 f7   R.3.......>...u.
+    0080 - d0 48 cf 06 e8 5c 80 32-69 51 ac 43 d2 71 37 4b   .H...\.2iQ.C.q7K
+    0090 - 09 4f 35 c5 eb fb 1f 9b-7b 60 a3 f4 7d dc d3 46   .O5.....{`..}..F
+    00a0 - 7c 8e df 76 66 4b a0 5e-ff 38 56 7c cd dc 06 b5   |..vfK.^.8V|....
+
+    Start Time: 1576343203
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+    Extended master secret: no
+---
+closed

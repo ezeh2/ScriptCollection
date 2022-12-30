@@ -1,0 +1,35 @@
+
+# base64 encoding
+openssl base64 -e -in file1.txt -out file2.txt
+# base64 decoding
+openssl base64 -d -in file2.txt -out file3.txt
+
+
+https://www.openssl.org/docs/man1.1.1/man1/openssl-enc.html
+
+# DES3 encryption
+openssl des3 -salt -in file1.txt -out file1.des3 -k abc
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc -iter 5
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc -iter 5 -p
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc -pbkdf2 -p
+# DES3 decryption
+openssl des3 -d -salt -in file1.des3 -out file2.txt -k abc
+openssl des3 -d -salt -in file1.des3 -out file2.txt -pass pass:abc
+openssl des3 -d -salt -in file1.des3 -out file2.txt -pass pass:abc -iter 5
+openssl des3 -d -salt -in file1.des3 -out file2.txt -pass pass:abc -iter 5 -p
+openssl des3 -d -salt -in file1.des3 -out file2.txt -pass pass:abc -pbkdf2 -p
+
+
+# show as hex
+xxd file1.txt
+
+---
+openssl des3 -salt -in file1.txt -out file1.des3 -pass pass:abc -pbkdf2 -p
+salt=6AD7A9869F058E0F
+key=C1B3638A76F22CA50739AB476B22EEF5ED25DD4E0619BE17
+iv =E072A329DC0B5035
+
+xxd file1.des3
+00000000: 5361 6c74 6564 5f5f |6ad7 a986 9f05 8e0f|  Salted__j.......
+00000010: ed30 41ce 526d 7ff2                      .0A.Rm..
