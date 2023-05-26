@@ -1,0 +1,11 @@
+être;to be
+avoir;to have
+faire;to do/make
+aller;to go
+pouvoir;to be able to/can
+vouloir;to want
+savoir;to know
+devoir;to have to/must
+dire;to say/tell
+prendre;to take
+
