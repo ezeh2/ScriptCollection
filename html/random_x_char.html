@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random X</title>
+  <style>
+    /* Set the style for the 'X' character */
+    .random-x {
+      position: absolute;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Function to generate a random number within a range
+    function randomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // Function to generate a random color code
+    function randomColor() {
+      var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+      return color;
+    }
+
+    // Function to create and position the 'X' character
+    function createRandomX() {
+      var x = randomNumber(0, window.innerWidth);
+      var y = randomNumber(0, window.innerHeight);
+      
+      var xElement = document.createElement('div');
+      xElement.textContent = 'X';
+      xElement.className = 'random-x';
+      xElement.style.left = x + 'px';
+      xElement.style.top = y + 'px';
+      xElement.style.color = randomColor();
+      
+      document.body.appendChild(xElement);
+      
+      // Remove the 'X' element after a delay
+      setTimeout(function() {
+        xElement.remove();
+      }, 2000);
+    }
+
+    // Create a random 'X' every 300 milliseconds
+    setInterval(createRandomX, 300);
+  </script>
+</body>
+</html>
+

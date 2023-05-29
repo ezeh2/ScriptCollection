@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Continuous Line</title>
+  <style>
+    #line {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="line"></div>
+
+  <script>
+    // Get the line element
+    var line = document.getElementById('line');
+
+    // Function to generate a random color
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Function to continuously update the line color and position
+    function updateLine() {
+      var color = getRandomColor();
+      var x = Math.random() * window.innerWidth;
+      var y = Math.random() * window.innerHeight;
+
+      line.style.backgroundColor = color;
+      line.style.left = x + 'px';
+      line.style.top = y + 'px';
+    }
+
+    // Function to continuously draw the line
+    function drawLine() {
+      updateLine();
+      requestAnimationFrame(drawLine);
+    }
+
+    // Start drawing the line
+    drawLine();
+  </script>
+</body>
+</html>
+
