@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>example3</id>
+    <version>6.0.3-examples-GitHub-GraphQL.3</version>
+    <authors>Deinok,Alexander Rose,graphql-dotnet</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>logo.64x64.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/graphql-dotnet/graphql-client</projectUrl>
+    <description>A GraphQL Client for .NET Standard</description>
+    <tags>GraphQL</tags>
+    <repository type="git" url="https://github.com/graphql-dotnet/graphql-client" branch="examples/GitHub_GraphQL" commit="80823d93d5f875f358a49cce04067de78d0018e9" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/home/edward/git_repositories/graphql-client/examples/example3/bin/Debug/net8.0/example3.runtimeconfig.json" target="lib/net8.0/example3.runtimeconfig.json" />
+    <file src="/home/edward/git_repositories/graphql-client/examples/example3/bin/Debug/net8.0/example3.dll" target="lib/net8.0/example3.dll" />
+    <file src="/home/edward/git_repositories/graphql-client/examples/example3/bin/Debug/net8.0/example3.xml" target="lib/net8.0/example3.xml" />
+    <file src="/home/edward/git_repositories/graphql-client/assets/logo.64x64.png" target="/logo.64x64.png" />
+    <file src="/home/edward/git_repositories/graphql-client/README.md" target="/README.md" />
+    <file src="/home/edward/git_repositories/graphql-client/LICENSE.txt" target="/LICENSE.txt" />
+  </files>
+</package>
