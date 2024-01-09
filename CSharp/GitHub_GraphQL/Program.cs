@@ -67,40 +67,44 @@ class Program
         string responseFile = $"{queryFileName}_response.json";
         Github_Graphql_Client github_Graphql_Client = new Github_Graphql_Client(apiUrl);
 
-        string? cursor = null;
-
         List<Edge> edgesList = new List<Edge>();
-        do
+        string[] ecosystems = new string[] {"NPM","NUGET"};
+        foreach(string ecosystem in ecosystems)
         {
-            if (verbose)
+            Console.Out.WriteLine($"{ecosystem}:");
+            string? cursor = null;            
+            do
             {
-                Console.WriteLine($"Cursor: {cursor}");
-            }
+                if (verbose)
+                {
+                    Console.WriteLine($"Cursor: {cursor}");
+                }
 
-            string queryWithCursor = query.Replace("@0", cursor!= null ? $"\"{cursor}\"" : "null");
-            Root? root = await github_Graphql_Client.Request(queryWithCursor, gitHubAccessToken);
-            int? edgesCount = root?.Data?.SecurityVulnerabilities?.Edges?.Count;
-            if (verbose)
-            {
-                Console.Out.WriteLine($"EdgesCount: {edgesCount}");
-            }
-            else
-            {
-                Console.Out.Write(".");
-            }
+                string queryWithCursor = query.Replace("@0", cursor!= null ? $"\"{cursor}\"" : "null").Replace("@1",ecosystem);
+                Root? root = await github_Graphql_Client.Request(queryWithCursor, gitHubAccessToken);
+                int? edgesCount = root?.Data?.SecurityVulnerabilities?.Edges?.Count;
+                if (verbose)
+                {
+                    Console.Out.WriteLine($"EdgesCount: {edgesCount}");
+                }
+                else
+                {
+                    Console.Out.Write(".");
+                }
 
-            cursor = null;
-            List<Edge>? edges = root?.Data?.SecurityVulnerabilities?.Edges;
-            bool? b = edges?.Any();
-            if (b.GetValueOrDefault(false))
-            {
-                cursor = root?.Data?.SecurityVulnerabilities?.Edges?.Last().Cursor;
-                edgesList.AddRange(edges);
+                cursor = null;
+                List<Edge>? edges = root?.Data?.SecurityVulnerabilities?.Edges;
+                bool? b = edges?.Any();
+                if (b.GetValueOrDefault(false))
+                {
+                    cursor = root?.Data?.SecurityVulnerabilities?.Edges?.Last().Cursor;
+                    edgesList.AddRange(edges);
+                }
             }
+            while(cursor != null);
+            Console.Out.WriteLine();
         }
-        while(cursor != null);
-
-        Console.Out.WriteLine();
+        
         Console.Out.WriteLine($"Read edges: {edgesList.Count}");
 
         string formattedJson = JsonConvert.SerializeObject(edgesList, Formatting.Indented);
