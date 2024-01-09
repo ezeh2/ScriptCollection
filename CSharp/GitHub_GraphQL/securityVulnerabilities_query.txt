@@ -1,27 +1,30 @@
 query {
   securityVulnerabilities(first:100, ecosystem:NUGET, orderBy: { field: UPDATED_AT, direction: DESC })
   {
-nodes
+    edges
     {
-      
-      package
-      {
-        name
-        ecosystem      
-      }
-      vulnerableVersionRange
-      severity
-      advisory
-      {
-        classification
-        summary
-        # description
-        ghsaId
-        cvss
+      cursor
+      node
+      {      
+        package
         {
-        score
-          vectorString
-      	}
+          name
+          ecosystem      
+        }
+        vulnerableVersionRange
+        severity
+        advisory
+        {
+          classification
+          summary
+          # description
+          ghsaId
+          cvss
+          {
+          score
+            vectorString
+          }
+        }
       }
     }
   }
