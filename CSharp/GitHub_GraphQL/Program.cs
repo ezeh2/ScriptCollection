@@ -116,6 +116,10 @@ class Program
 
                 System.IO.File.WriteAllText(responseFile, formattedJson);
                 Console.Out.WriteLine($"Response written to: {responseFile}");
+
+                Root? root = JsonConvert.DeserializeObject<Root>(responseContent);
+                int edgesCount = root.Data.SecurityVulnerabilities.Edges.Count;
+                Console.Out.WriteLine($"EdgesCount: {edgesCount}");
             }
             else
             {
