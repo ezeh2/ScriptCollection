@@ -33,6 +33,10 @@ class LoggingHandler : DelegatingHandler
         }
         if (response.Content != null)
         {
+            foreach (var header in response.Content.Headers)
+            {
+                Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+            }
             Console.WriteLine("Content:");
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }

@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft;
+using Newtonsoft.Json;
 
 class Program
 {
@@ -10,7 +10,9 @@ class Program
     {
         string? gitHubAccessToken = null;
         string? queryFileName = null;
-	string? query = null;
+	    string? query = null;
+        bool verboseCommandLineArguments = false;
+        bool verboseHttp = false;
 
         // Check if the user provided no arguments
         if (args.Length == 0)
@@ -26,9 +28,6 @@ class Program
             gitHubAccessToken = args[0];
             queryFileName = args[1];
 
-            Console.WriteLine($"GitHub Access Token: {gitHubAccessToken}");
-            Console.WriteLine($"Query File Name: {queryFileName}");
-
             // Read the content of the file into the 'query' string
             try
             {
@@ -42,9 +41,11 @@ class Program
                 return;
             }
 
-            Console.WriteLine($"GitHub Access Token: {gitHubAccessToken}");
-            Console.WriteLine($"Query from File: {query}");
-
+            if (verboseCommandLineArguments)
+            {
+                Console.WriteLine($"GitHub Access Token: {gitHubAccessToken}");
+                Console.WriteLine($"Query from File: {query}");
+            }
 
             // Here you can proceed with using gitHubAccessToken and queryFileName as needed.
             // Example: Load the GraphQL query from the file and perform API requests.
@@ -76,15 +77,23 @@ class Program
         string apiUrl = "https://api.github.com/graphql";
 
         // Create HttpClient instance
-        using (HttpClient httpClient = new HttpClient(new LoggingHandler(new HttpClientHandler())))
+
+        HttpMessageHandler httpMessageHandler = new HttpClientHandler();
+        if (verboseHttp)
+        {
+            httpMessageHandler = new LoggingHandler(httpMessageHandler);
+        }
+        using (HttpClient httpClient = new HttpClient(httpMessageHandler))
         {
             // Set the authorization header with the GitHub personal access token
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {gitHubAccessToken }");
 
             // Set the User-Agent header
-	    httpClient.DefaultRequestHeaders.Add("User-Agent", "YourAppName");
+	        httpClient.DefaultRequestHeaders.Add("User-Agent", "DotNetTestApp");
+
+            httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             
-	    // Create the content for the POST request
+	        // Create the content for the POST request
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             // Send the POST request
@@ -93,15 +102,25 @@ class Program
             // Check if the request was successful (status code 200)
             if (response.IsSuccessStatusCode)
             {
+                Console.Out.WriteLine($"Status: {(int)response.StatusCode} {response.ReasonPhrase}");
+
                 // Read and display the response content
                 string responseContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Response from GitHub API:");
-                Console.WriteLine(responseContent);
+
+                string formattedJson = JsonConvert.SerializeObject(
+                    JsonConvert.DeserializeObject(responseContent),
+                    Formatting.Indented
+                );
+
+                string responseFile = $"{queryFileName}_response.json";
+
+                System.IO.File.WriteAllText(responseFile, formattedJson);
+                Console.Out.WriteLine($"Response written to: {responseFile}");
             }
             else
             {
                 // Display the error status code
-                Console.WriteLine($"Error: {response.StatusCode}");
+                Console.Error.WriteLine($"Error: {(int)response.StatusCode} {response.ReasonPhrase}");
             }
         }
     }
