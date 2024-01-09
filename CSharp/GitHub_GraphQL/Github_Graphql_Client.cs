@@ -15,8 +15,9 @@ public class Github_Graphql_Client
         this.apiUrl = apiUrl;
     }
 
-    public async Task Request(string query, string gitHubAccessToken, string responseFile)
+    public async Task<Root?> Request(string query, string gitHubAccessToken)
     {
+        Root? root = null;
 
         // Construct the JSON payload
         var jsonPayload = new
@@ -36,7 +37,7 @@ public class Github_Graphql_Client
         using (HttpClient httpClient = new HttpClient(httpMessageHandler))
         {
             // Set the authorization header with the GitHub personal access token
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {gitHubAccessToken }");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {gitHubAccessToken}");
 
             // Set the User-Agent header
 	        httpClient.DefaultRequestHeaders.Add("User-Agent", "DotNetTestApp");
@@ -52,22 +53,15 @@ public class Github_Graphql_Client
             // Check if the request was successful (status code 200)
             if (response.IsSuccessStatusCode)
             {
-                Console.Out.WriteLine($"Status: {(int)response.StatusCode} {response.ReasonPhrase}");
+                if (verboseHttp)
+                {
+                    Console.Out.WriteLine($"Status: {(int)response.StatusCode} {response.ReasonPhrase}");
+                }
 
-                // Read and display the response content
+                // deserialize response content
                 string responseContent = await response.Content.ReadAsStringAsync();
-
-                string formattedJson = JsonConvert.SerializeObject(
-                    JsonConvert.DeserializeObject(responseContent),
-                    Formatting.Indented
-                );
-
-                System.IO.File.WriteAllText(responseFile, formattedJson);
-                Console.Out.WriteLine($"Response written to: {responseFile}");
-
-                Root? root = JsonConvert.DeserializeObject<Root>(responseContent);
-                int? edgesCount = root?.Data?.SecurityVulnerabilities?.Edges?.Count;
-                Console.Out.WriteLine($"EdgesCount: {edgesCount}");
+                root = JsonConvert.DeserializeObject<Root>(responseContent);
+                return root;
             }
             else
             {
@@ -75,6 +69,8 @@ public class Github_Graphql_Client
                 Console.Error.WriteLine($"Error: {(int)response.StatusCode} {response.ReasonPhrase}");
             }
         }
+
+        return root;
     }
 
 }
