@@ -1,5 +1,5 @@
 query {
-  securityVulnerabilities(first:100, ecosystem:NUGET, orderBy: { field: UPDATED_AT, direction: DESC })
+  securityVulnerabilities(first:100, after: @0,  ecosystem:@1, orderBy: { field: UPDATED_AT, direction: DESC })
   {
     edges
     {
