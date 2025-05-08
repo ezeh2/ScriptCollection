@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Prune stale references
+git fetch --prune
+
+# Find local branches tracking deleted remote branches
+gone_branches=$(git branch -vv | awk '/: gone]/{print $1}')
+
+# Prompt to delete each
+for branch in $gone_branches; do
+    read -p "Delete local branch '$branch' which tracks a deleted remote branch? [y/N] " yn
+    case $yn in
+        [Yy]* ) git branch -D "$branch";;
+        * ) echo "Skipped $branch";;
+    esac
+done
+
+# Pull latest changes
+git pull

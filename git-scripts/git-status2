@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+
+echo "On branch $BRANCH"
+
+# Check for MERGE state
+if [ -f .git/MERGE_HEAD ]; then
+    echo "You are currently merging."
+elif [ -d .git/rebase-apply ]; then
+    echo "You are currently rebasing (rebase in progress: apply)."
+elif [ -d .git/rebase-merge ]; then
+    echo "You are currently rebasing (rebase in progress: merge)."
+fi
+
+# Ahead/Behind comparison
+if [ -n "$UPSTREAM" ]; then
+    AHEAD=$(git rev-list --left-only --count $UPSTREAM...HEAD)
+    BEHIND=$(git rev-list --right-only --count $UPSTREAM...HEAD)
+
+    if [ "$AHEAD" -gt 0 ] || [ "$BEHIND" -gt 0 ]; then
+        echo "Your branch is:"
+        [ "$AHEAD" -gt 0 ] && echo "  ahead of '$UPSTREAM' by $AHEAD commit(s)"
+        [ "$BEHIND" -gt 0 ] && echo "  behind '$UPSTREAM' by $BEHIND commit(s)"
+    else
+        echo "Your branch is up to date with '$UPSTREAM'"
+    fi
+else
+    echo "No upstream tracking branch set."
+fi
+
+echo
+
+# Staged changes
+echo "Changes to be committed:"
+git diff --cached --name-status
+echo
+
+# Unstaged changes
+echo "Changes not staged for commit:"
+git diff --name-status
+echo
+
+# Deleted files
+echo "Deleted files:"
+git diff --cached --name-status | grep '^D' || echo "None"
+echo
+
+# Untracked files
+echo "Untracked files:"
+git ls-files --others --exclude-standard
+echo
+
+# Ignored files
+echo "Ignored files:"
+git ls-files --others -i --exclude-standard

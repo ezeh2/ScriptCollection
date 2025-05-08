@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Constants
+REPO_DIR="/c/Users/$USERNAME/xit"
+WORK_TREE="/c/Users/$USERNAME"
+GIT_DIR="$REPO_DIR"
+IGNORE_FILE="$WORK_TREE/.gitignore"
+GIT_CMD="git --git-dir=$GIT_DIR --work-tree=$WORK_TREE"
+
+# Initialize repo if not present
+if [ ! -d "$REPO_DIR" ]; then
+    mkdir -p "$REPO_DIR"
+    git init --bare "$REPO_DIR"
+    echo "*" > "$IGNORE_FILE"
+    $GIT_CMD add .gitignore
+    $GIT_CMD commit -m "Initial commit with global ignore"
+fi
+
+# Command dispatcher
+case "$1" in
+    track)
+        FILE="$2"
+        MESSAGE="$3"
+
+        if [[ -z "$FILE" || -z "$MESSAGE" ]]; then
+            echo "Usage: xit track <file> <commit-message>"
+            exit 1
+        fi
+
+        if [[ "$FILE" == "." || -d "$FILE" ]]; then
+            echo "Error: Tracking '.' or directories is not supported."
+            exit 1
+        fi
+
+        # Update .gitignore to un-ignore the file
+        if ! grep -Fxq "!$FILE" "$IGNORE_FILE"; then
+            echo "!$FILE" >> "$IGNORE_FILE"
+        fi
+
+        $GIT_CMD add "$IGNORE_FILE" "$FILE"
+        $GIT_CMD commit -m "$MESSAGE"
+        ;;
+    status)
+        $GIT_CMD status
+        ;;
+    log)
+        $GIT_CMD log --oneline --graph --decorate
+        ;;
+    *)
+        echo "Unsupported command: $1"
+        echo "Supported commands:"
+        echo "  xit track <file> <message>  - Track and commit a file"
+        echo "  xit status                  - Show status"
+        echo "  xit log                     - Show commit log"
+        exit 1
+        ;;
+esac
