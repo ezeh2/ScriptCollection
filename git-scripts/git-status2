@@ -54,5 +54,5 @@ git ls-files --others --exclude-standard
 echo
 
 # Ignored files
-echo "Ignored files:"
-git ls-files --others -i --exclude-standard
+# echo "Ignored files:"
+# git ls-files --others -i --exclude-standard
