@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Function to get upstream of a branch
+get_upstream() {
+    git rev-parse --abbrev-ref --symbolic-full-name "$1@{upstream}" 2>/dev/null
+}
+
+# Determine branch1 and branch2 based on arguments
+if [ "$#" -eq 0 ]; then
+    BRANCH1=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [ -z "$BRANCH1" ]; then
+        echo "Error: Cannot determine current branch."
+        exit 1
+    fi
+    BRANCH2=$(get_upstream "$BRANCH1")
+    if [ -z "$BRANCH2" ]; then
+        echo "Error: Branch '$BRANCH1' has no upstream."
+        exit 1
+    fi
+elif [ "$#" -eq 1 ]; then
+    BRANCH1="$1"
+    BRANCH2=$(get_upstream "$BRANCH1")
+    if [ -z "$BRANCH2" ]; then
+        echo "Error: Branch '$BRANCH1' has no upstream."
+        exit 1
+    fi
+elif [ "$#" -eq 2 ]; then
+    BRANCH1="$1"
+    BRANCH2="$2"
+else
+    echo "Usage: git-ahbh [<branch1> [<branch2>]]"
+    exit 1
+fi
+
+# Fetch latest remote info
+git fetch --quiet
+
+# Verify branches exist
+for BR in "$BRANCH1" "$BRANCH2"; do
+    if ! git rev-parse --verify "$BR" >/dev/null 2>&1; then
+        echo "Error: Branch '$BR' not found."
+        exit 1
+    fi
+done
+
+# Compute ahead and behind
+read AHEAD BEHIND  < <(git rev-list --left-right --count "$BRANCH1...$BRANCH2")
+
+echo "$BRANCH1 is $AHEAD ahead and $BEHIND behind $BRANCH2"
