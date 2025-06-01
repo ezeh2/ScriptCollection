@@ -1,0 +1,185 @@
+<html>
+<head>
+<style>
+:root {
+	--bg1:#F0F0F0;
+	--bg2:#E0E0E0;	
+	--bg3:#D0D0D0;
+	--bg4:#C0C0C0;		
+	--bg5:#C0D0C0;		
+	--bg6:#C0C0D0;	
+	--bc1:#FFC0C0;
+	--ic1:#F0D080;
+	--ic2:#F0B080;	
+}
+
+body
+{
+	background-color: var(--bg1);
+}
+
+span
+{
+	background-color: var(--bg5);
+	text-decoration: underline;
+}
+
+.container1,.container2,.container3
+{
+	margin: 0px 0px 50px 0px;
+}
+
+.item
+{
+	border: 2px dotted var(--bc1);
+	margin: 2px 2px 2px 2px;
+	text-align:center;
+	# there is vertical aldigment, use padding as workaround
+	padding: 40px 0;
+	
+	# text-wrap:nowrap;	
+	width:100px;
+	height:100px;	
+}
+
+.container1
+{
+	display:flex;
+	flex-flow: row no-wrap;
+	background-color: var(--bg2);	
+}
+
+.container1:hover
+{
+	background-color: var(--bg6);
+}
+
+.container1 > .item
+{	
+	background:var(--ic1);;
+}
+
+
+.container2
+{
+	display:flex;
+	flex-flow: row wrap;
+	background-color: var(--bg3);		
+}
+
+.container2 > .item
+{	
+	background:var(--ic1);;
+}
+
+
+.container3
+{
+	display:flex;
+	flex-flow: row no-wrap;
+	background-color: var(--bg4);		
+}
+
+
+.container3 > .item
+{	
+	flex: 1 0 auto;
+
+	background:var(--ic1);;
+}
+
+.container4
+{
+	display:flex;
+	flex-flow: row no-wrap;
+	background-color: var(--bg4);		
+}
+
+
+.container4 > .item
+{	
+	flex: 0 1 auto;
+
+	background:var(--ic1);;
+}
+
+.container4 > .item:nth-child( odd )
+{	
+	background:var(--ic1);;
+}
+
+.container4 > .item:nth-child( even )
+{	
+	background:var(--ic2);;
+}
+
+
+.container4 > .item:first-child
+{	
+	flex: 1 0 auto;
+}
+
+
+</style>
+</head>
+<body class="c1">
+
+<h2>No Wrap, Shrink=1 (default), No Grow (default)</h2>
+
+<div class="container1">
+<div class="item">item1 blabla blabla blabla blabla blabla</div>
+<div class="item">item2</div>
+<div class="item">item3</div>
+<div class="item">item4</div>
+<div class="item">item5</div>
+<div class="item">item6</div>
+<div class="item">item7</div>
+<div class="item">item8</div>
+<div class="item">item9</div>
+</div>
+
+<h2>Wrap, No Shrink, No Grow</h2>
+
+<div class="container2">
+<div class="item">item1 blabla blabla blabla blabla blabla</div>
+<div class="item">item2</div>
+<div class="item">item3</div>
+<div class="item">item4</div>
+<div class="item">item5</div>
+<div class="item">item6</div>
+<div class="item">item7</div>
+<div class="item">item8</div>
+<div class="item">item9</div>
+</div>
+
+<h2>No Wrap, Shrink=0, Grow=1</h2>
+
+<div class="container3">
+<div class="item">item1 blabla blabla blabla blabla blabla</div>
+<div class="item">item2</div>
+<div class="item">item3</div>
+<div class="item">item4</div>
+<div class="item">item5</div>
+<div class="item">item6</div>
+<div class="item">item7</div>
+<div class="item">item8</div>
+<div class="item">item9</div>
+</div>
+
+<h2>No Wrap, Shrink=1, Grow=0, but item 1=(Shrink=0, Grow=1)</h2>
+
+<div class="container4">
+<div class="item">item1 blabla blabla blabla blabla blabla</div>
+<div class="item">item2</div>
+<div class="item">item3</div>
+<div class="item">item4</div>
+<div class="item">item5</div>
+<div class="item">item6</div>
+<div class="item">item7</div>
+<div class="item">item8</div>
+<div class="item">item9</div>
+</div>
+
+
+</body>
+</html>
