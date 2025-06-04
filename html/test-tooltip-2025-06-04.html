@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+:root {
+	--bg1:#F0F0F0;
+	--bg2:#E0E0E0;	
+	--bg3:#D0D0D0;
+	--bg4:#C0C0C0;		
+	--bg5:#C0D0C0;		
+	--bg6:#C0C0D0;	
+	--bc1:#FFC0C0;
+	--ic1:#F0D080;
+	--ic2:#F0B080;	
+}
+
+body
+{
+	background-color: var(--bg1);
+}
+
+.d1:hover > .tooltip1
+{
+		visibility:visible;
+}
+
+.tooltip1
+{
+	background-color:var(--bg2);
+	width:300px;
+	height:50px;
+	border:3px dotted brown;
+	position:absolute;
+	left:300px;
+	top:10px;
+	visibility:hidden;
+	padding: 10px 10px 10px 10px;
+	box-shadow:  3px 3px red,
+  -1em 0 0.4em olive;
+}
+
+</style>
+</head>
+<body>
+
+<div class="d1">
+<div>ipsum loren</div>
+<div class="tooltip1">tooltip bla vla</div>
+</div>
+
+<div>
+<div>ipsum loren</div>
+</div>
+
+<div>
+<div>ipsum loren</div>
+</div>
+
+
+</body>
+</html>
