@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>News Articles</title>
+    <style>
+        .news {
+            display: grid;
+            gap: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .news__article {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .news__title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6600; /* EasyJet orange */
+        }
+        .news__content {
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            line-height: 1.5em;
+            transition: max-height 0.3s ease;
+        }
+        .news__toggle {
+            display: block;
+            margin-top: 10px;
+            color: #ff6600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        input[type="checkbox"] {
+            display: none;
+        }
+        input[type="checkbox"]:checked ~ .news__content {
+            max-height: 100em;
+        }
+        input[type="checkbox"]:checked ~ .news__toggle::after {
+            content: " Less...";
+        }
+        .news__toggle::after {
+            content: " More...";
+        }
+    </style>
+</head>
+<body>
+
+<div class="news">
+    <div class="news__article">
+        <div class="news__title">Article 1</div>
+        <input type="checkbox" id="toggle-1">
+        <div class="news__content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+			
+        </div>
+        <label class="news__toggle" for="toggle-1"></label>
+    </div>
+
+    <div class="news__article">
+        <div class="news__title">Article 2</div>
+        <input type="checkbox" id="toggle-2">
+        <div class="news__content">
+            Praesent sed lacus a odio vestibulum sollicitudin. Nulla facilisi. Pellentesque habitant morbi tristique senectus.
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt congue, nisi nunc.
+            Cras porta, magna at bibendum volutpat, felis sapien efficitur metus, vel luctus arcu elit ut risus.
+            Integer facilisis justo non turpis facilisis convallis.
+			
+        </div>
+        <label class="news__toggle" for="toggle-2"></label>
+    </div>
+</div>
+
+</body>
+</html>

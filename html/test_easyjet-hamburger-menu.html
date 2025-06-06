@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Menu Example</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .menu {
+            background-color: #ff6600; /* EasyJet orange */
+            color: #fff;
+            padding: 10px 20px;
+        }
+        .menu__toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #fff;
+        }
+        .menu__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+        }
+        .menu__item {}
+        .menu__link {
+            color: #fff;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .menu__list {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            .menu__toggle {
+                display: block;
+            }
+            .menu--open .menu__list {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="menu">
+    <button class="menu__toggle" onclick="document.querySelector('.menu').classList.toggle('menu--open')">
+        ☰
+    </button>
+    <ul class="menu__list">
+        <li class="menu__item"><a href="#" class="menu__link">Home</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">About</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Services</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Contact</a></li>
+    </ul>
+</nav>
+
+</body>
+</html>

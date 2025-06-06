@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login Block</title>
+    <style>
+        .auth {
+            background-color: #ff6600; /* EasyJet orange */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        .auth__button {
+            background-color: #fff;
+            color: #ff6600;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth">
+    <button class="auth__button" id="auth-login">Login</button>
+    <button class="auth__button" id="auth-logout" style="display: none;">Logout</button>
+</div>
+
+<script>
+    const loginButton = document.getElementById('auth-login');
+    const logoutButton = document.getElementById('auth-logout');
+
+    loginButton.addEventListener('click', function() {
+        loginButton.style.display = 'none';
+        logoutButton.style.display = 'inline-block';
+    });
+
+    logoutButton.addEventListener('click', function() {
+        logoutButton.style.display = 'none';
+        loginButton.style.display = 'inline-block';
+    });
+</script>
+
+</body>
+</html>

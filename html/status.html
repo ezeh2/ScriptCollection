@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Status Bar</title>
+    <style>
+        .status-bar {
+            background-color: #ff6600; /* EasyJet orange */
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .status-bar__message {
+            margin: 0;
+        }
+        .status-bar--success {
+            background-color: #28a745; /* green */
+        }
+        .status-bar--error {
+            background-color: #dc3545; /* red */
+        }
+    </style>
+</head>
+<body>
+
+<div class="status-bar" id="status-bar">
+    <p class="status-bar__message">System is running normally.</p>
+</div>
+
+<script>
+    // Example to change status
+    const statusBar = document.getElementById('status-bar');
+    function setStatus(type, message) {
+        statusBar.className = 'status-bar';
+        if (type === 'success') {
+            statusBar.classList.add('status-bar--success');
+        } else if (type === 'error') {
+            statusBar.classList.add('status-bar--error');
+        }
+        statusBar.querySelector('.status-bar__message').textContent = message;
+    }
+
+    // Example usage
+    // setStatus('success', 'Operation completed.');
+    // setStatus('error', 'An error occurred.');
+</script>
+
+</body>
+</html>
