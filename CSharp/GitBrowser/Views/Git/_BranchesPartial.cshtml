@@ -1,0 +1,25 @@
+@model List<GitBranch>
+@{
+    var repoPath = ViewBag.RepoPath as string;
+}
+
+<h2>Branches</h2>
+<ul id="branch-list">
+@foreach (var branch in Model)
+{
+    <li>
+        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+    </li>
+}
+</ul>
+
+<script>
+$(document).on('click', '.branch-link', function(e) {
+    e.preventDefault();
+    var path = $(this).data('path');
+    var branch = $(this).data('branch');
+    $.get('/Git/Log', { repoPath: path, branchName: branch }, function(data) {
+        $('#commits').html(data);
+    });
+});
+</script>
