@@ -1,3 +1,4 @@
+
 @model List<GitCommit>
 
 <h2>Commits</h2>
@@ -5,9 +6,9 @@
 @foreach (var commit in Model)
 {
     <li>
-        <strong>@commit.Sha.Substring(0, 7)</strong> - @commit.Message
+        <strong>@Html.Encode(commit.Sha.Substring(0, 7))</strong> - @Html.Encode(commit.Message)
         <br />
-        <em>@commit.Author</em> on @commit.Date
+        <em>@Html.Encode(commit.Author)</em> on @commit.Date
     </li>
 }
 </ul>

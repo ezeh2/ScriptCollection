@@ -18,9 +18,14 @@ public class GitController : Controller
 
         return View(repos);
     }
-
+	
 	public IActionResult Branches(string repoPath)
 	{
+		if (!IsValidRepoPath(repoPath))
+		{
+			return BadRequest("Invalid path.");
+		}
+
 		using var repo = new Repository(repoPath);
 		var branches = repo.Branches
 			.Where(b => !b.IsRemote)
@@ -30,12 +35,23 @@ public class GitController : Controller
 		ViewBag.RepoPath = repoPath;
 		return PartialView("_BranchesPartial", branches);
 	}
-
+	
 	public IActionResult Log(string repoPath, string branchName)
 	{
+		if (!IsValidRepoPath(repoPath))
+		{
+			return BadRequest("Invalid path.");
+		}
+
 		using var repo = new Repository(repoPath);
 		var branch = repo.Branches[branchName];
+		if (branch == null)
+		{
+			return NotFound("Branch not found.");
+		}
+
 		var commits = branch.Commits
+			.Take(50) // Limit to 50 commits for performance
 			.Select(c => new GitCommit
 			{
 				Sha = c.Sha,
@@ -46,4 +62,13 @@ public class GitController : Controller
 
 		return PartialView("_LogPartial", commits);
 	}
+	
+	private bool IsValidRepoPath(string repoPath)
+	{
+		var fullPath = Path.GetFullPath(repoPath);
+		var allowedPath = Path.GetFullPath(_rootPath);
+		return fullPath.StartsWith(allowedPath, StringComparison.OrdinalIgnoreCase)
+			   && Directory.Exists(Path.Combine(fullPath, ".git"));
+	}
+	
 }
