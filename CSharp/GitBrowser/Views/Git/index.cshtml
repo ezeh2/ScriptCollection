@@ -1,0 +1,11 @@
+@model List<GitRepo>
+
+<h2>Repositories</h2>
+<ul>
+@foreach (var repo in Model)
+{
+    <li>
+        <a href="@Url.Action("Branches", "Git", new { repoPath = repo.Path })">@repo.Name</a>
+    </li>
+}
+</ul>
