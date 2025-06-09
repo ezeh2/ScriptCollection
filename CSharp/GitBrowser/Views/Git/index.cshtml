@@ -14,13 +14,3 @@
 <div id="commits"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).on('click', '.repo-link', function(e) {
-    e.preventDefault();
-    var path = $(this).data('path');
-    $('#commits').empty();
-    $.get('/Git/Branches', { repoPath: path }, function(data) {
-        $('#branches').html(data);
-    });
-});
-</script>
