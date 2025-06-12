@@ -18,8 +18,11 @@ html {
 
 .container
 {
+	display:grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(3,auto);
+	gap: 10px;
 	background-color: var(--bg4);
-	border: 1px solit red;
 }
 
 #repos
