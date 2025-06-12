@@ -20,7 +20,10 @@ html {
 {
 	display:grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(3,auto);
+	grid-template-rows: repeat(2,auto);
+	grid-template-areas:
+		"a b"
+		"c c";
 	gap: 10px;
 	background-color: var(--bg4);
 }
@@ -28,15 +31,18 @@ html {
 #repos
 {
 	background-color: var(--bg1);
+	grid-area: a;
 }
 
 #branches
 {
 	background-color: var(--bg2);
+	grid-area: b;	
 }
 
 #commits
 {
 	background-color: var(--bg3);
+	grid-area: c;
 }
 
