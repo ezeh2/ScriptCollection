@@ -89,7 +89,9 @@ div.logentry__commitId
 
 div.logentry__message
 {
-	width:300px;
+	/* last item should fill all remaining space */
+	flex-grow: 1;
+	white-space: nowrap
 }
 
 div.logentry:hover > div
