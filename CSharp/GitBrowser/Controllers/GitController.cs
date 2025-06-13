@@ -57,7 +57,7 @@ public class GitController : Controller
 				Sha = c.Sha,
 				Message = c.MessageShort,
 				Author = c.Author.Name,
-				Date = c.Author.When.DateTime
+				AuthorDate = c.Author.When.DateTime
 			}).ToList();
 
 		return PartialView("_LogPartial", commits);
