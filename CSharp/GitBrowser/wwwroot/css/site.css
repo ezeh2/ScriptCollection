@@ -61,8 +61,23 @@ html {
 	display:flex;
 }
 
+.logentry__header
+{
+	font-weight:bold;
+}
+
+
 /* element of #commits */
 .logentry > div
 {
 	width:150px;
+	border-top-style: solid;
+	border-top-width: 1px;
 }
+
+.logentry > div:nth-of-type(1)
+{
+	width:80px;
+}
+
+
