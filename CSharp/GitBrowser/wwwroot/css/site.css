@@ -92,5 +92,9 @@ div.logentry__message
 	width:300px;
 }
 
-
+div.logentry:hover > div
+{
+	color: white;
+	background-color: black;
+}
 
