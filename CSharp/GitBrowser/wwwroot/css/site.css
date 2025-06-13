@@ -82,14 +82,15 @@ html {
 	border-top-width: 1px;
 }
 
-.logentry > div:nth-of-type(1)
+div.logentry__commitId
 {
 	width:80px;
 }
 
-.logentry > div:nth-of-type(4)
+div.logentry__message
 {
 	width:300px;
 }
+
 
 
