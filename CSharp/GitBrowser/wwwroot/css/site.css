@@ -1,4 +1,5 @@
 
+/* defines a couple of colors to be used in this file (site.css). Example usage: var(--bg1)  */
 :root {
 	--bg1:#F0F0F0;
 	--bg2:#E0E0E0;	
@@ -28,33 +29,39 @@ html {
 	background-color: var(--bg4);
 }
 
+/* block */
 #repos
 {
 	background-color: var(--bg1);
 	grid-area: a;
 }
 
+/* block */
 #branches
 {
 	background-color: var(--bg2);
 	grid-area: b;	
 }
 
+/* block */
 #commits
 {
 	background-color: var(--bg3);
 	grid-area: c;
 }
 
+/* element of #commits */
 .logentries
 {
 }
 
+/* element of #commits */
 .logentry
 {
 	display:flex;
 }
 
+/* element of #commits */
 .logentry > div
 {
 	width:150px;
