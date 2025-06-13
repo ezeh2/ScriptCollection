@@ -2,10 +2,10 @@
 @model List<GitCommit>
 
 <h2>Commits</h2>
-<div class="commits">
+<div class="logentries">
 @foreach (var commit in Model)
 {
-	<div class="commit">
+	<div class="logentry">
 	<div>@Html.Encode(commit.Sha.Substring(0, 7))</div>
 	<div>@Html.Encode(commit.AuthorDate)</div>	
 	<div>@Html.Encode(commit.Author)</div>		

@@ -46,3 +46,13 @@ html {
 	grid-area: c;
 }
 
+.logentries
+{
+	display:flex;
+}
+
+.logentry
+{
+}
+
+
