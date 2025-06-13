@@ -48,11 +48,14 @@ html {
 
 .logentries
 {
-	display:flex;
 }
 
 .logentry
 {
+	display:flex;
 }
 
-
+.logentry > div
+{
+	width:150px;
+}
