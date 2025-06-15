@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using GitBrowser.Services; // Added
 
 namespace YourNamespace
 {
@@ -13,6 +14,8 @@ namespace YourNamespace
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.Configure<GitSettings>(builder.Configuration.GetSection("GitSettings")); // Added
+            builder.Services.AddScoped<IGitService, GitService>(); // Added
             builder.Services.AddControllersWithViews();
 			// this enables the automatic compilation of cshtml-files
 			// to see the automatic compilation om the commandline following line was added to appsettings.json
