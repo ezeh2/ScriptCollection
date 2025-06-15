@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "restore": {
+    "/app/CSharp/GitBrowser.E2ETests/GitBrowser.E2ETests.csproj": {}
+  },
+  "projects": {
+    "/app/CSharp/GitBrowser.E2ETests/GitBrowser.E2ETests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/app/CSharp/GitBrowser.E2ETests/GitBrowser.E2ETests.csproj",
+        "projectName": "GitBrowser.E2ETests",
+        "projectPath": "/app/CSharp/GitBrowser.E2ETests/GitBrowser.E2ETests.csproj",
+        "packagesPath": "/home/swebot/.nuget/packages/",
+        "outputPath": "/app/CSharp/GitBrowser.E2ETests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/swebot/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.0.4, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.0.4, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.6.0, )"
+            },
+            "PlaywrightSharp": {
+              "target": "Package",
+              "version": "[0.192.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.117/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
