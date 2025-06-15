@@ -100,3 +100,6 @@ div.logentry:hover > div
 	background-color: black;
 }
 
+.commits-stale {
+    color: lightgray;
+}

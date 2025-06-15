@@ -62,6 +62,8 @@ public class GitController : Controller
 				CommitterDate = c.Committer.When.DateTime				// does not compile
 			}).ToList();
 
+		ViewBag.RepoName = Path.GetFileName(repoPath);
+		ViewBag.BranchName = branchName;
 		return PartialView("_LogPartial", commits);
 	}
 	

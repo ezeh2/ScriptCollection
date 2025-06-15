@@ -1,8 +1,10 @@
+@using System.IO
 @model List<GitBranch>
 @{
     var repoPath = ViewBag.RepoPath as string;
 }
 
+<h3>@Path.GetFileName(ViewBag.RepoPath)</h3>
 <h2>Branches</h2>
 <ul id="branch-list">
 @foreach (var branch in Model)
