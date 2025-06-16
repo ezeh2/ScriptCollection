@@ -4,53 +4,76 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LibGit2Sharp;
-using Microsoft.Extensions.Options; // Added
-// No using statement for Models needed as they are in global namespace
+using Microsoft.Extensions.Options;
 
 namespace GitBrowser.Services
 {
     public class GitService : IGitService
     {
         private readonly string _rootPath;
+        private readonly int _maxSearchDepth;
 
         public GitService(IOptions<GitSettings> settings)
         {
             _rootPath = settings.Value.RootPath;
             if (string.IsNullOrEmpty(_rootPath))
             {
-                // Fallback or throw if RootPath is critical and not set
-                // For now, let's throw an exception if it's not configured.
                 throw new ArgumentNullException(nameof(settings), "GitSettings:RootPath is not configured in appsettings.json");
             }
+            _maxSearchDepth = settings.Value.MaxSearchDepth > 0 ? settings.Value.MaxSearchDepth : 1;
         }
 
         public IEnumerable<GitRepo> GetRepositories()
         {
+            var foundRepos = new List<GitRepo>();
             if (string.IsNullOrEmpty(_rootPath) || !Directory.Exists(_rootPath))
             {
-                // Or throw a specific exception / handle error appropriately
                 return Enumerable.Empty<GitRepo>();
             }
+            FindRepositoriesRecursive(_rootPath, 0, foundRepos);
+            return foundRepos;
+        }
 
-            return Directory.GetDirectories(_rootPath)
-                .Where(d => Directory.Exists(Path.Combine(d, ".git")))
-                .Select(d => new GitRepo
+        private void FindRepositoriesRecursive(string currentSearchPath, int currentRelativeDepth, List<GitRepo> foundRepos)
+        {
+            if (currentRelativeDepth >= _maxSearchDepth)
+            {
+                return;
+            }
+
+            try
+            {
+                foreach (var subDir in Directory.GetDirectories(currentSearchPath))
                 {
-                    Name = Path.GetFileName(d),
-                    Path = d
-                }).ToList();
+                    if (Directory.Exists(Path.Combine(subDir, ".git")))
+                    {
+                        foundRepos.Add(new GitRepo
+                        {
+                            Name = Path.GetFileName(subDir),
+                            Path = subDir
+                        });
+                    }
+                    // IMPORTANT: Recursive call should be outside the .git check,
+                    // to search deeper even if current subDir is not a repo.
+                    FindRepositoriesRecursive(subDir, currentRelativeDepth + 1, foundRepos);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Skip directories that cannot be accessed.
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // Skip if a directory is deleted during enumeration.
+            }
         }
 
         public IEnumerable<GitBranch> GetBranches(string repoPath)
         {
-            // IsValidRepoPath should be called by the controller or higher level service
-            // before calling this method.
             if (string.IsNullOrEmpty(repoPath) || !Repository.IsValid(repoPath))
             {
-                 // Or throw
                 return Enumerable.Empty<GitBranch>();
             }
-
             using var repo = new Repository(repoPath);
             return repo.Branches
                 .Where(b => !b.IsRemote)
@@ -60,21 +83,16 @@ namespace GitBrowser.Services
 
         public IEnumerable<GitCommit> GetCommits(string repoPath, string branchName)
         {
-            // Assuming repoPath is validated and branchName is not null/empty
             if (string.IsNullOrEmpty(repoPath) || !Repository.IsValid(repoPath) || string.IsNullOrEmpty(branchName))
             {
-                // Or throw
                 return Enumerable.Empty<GitCommit>();
             }
-
             using var repo = new Repository(repoPath);
             var branch = repo.Branches[branchName];
             if (branch == null)
             {
-                // Or throw new NotFoundException($"Branch '{branchName}' not found in repo '{repoPath}'.");
                 return Enumerable.Empty<GitCommit>();
             }
-
             return branch.Commits
                 .Take(50) // Limit to 50 commits for performance
                 .Select(c => new GitCommit
@@ -97,7 +115,7 @@ namespace GitBrowser.Services
             try
             {
                 var fullPath = Path.GetFullPath(repoPath);
-                var allowedPath = Path.GetFullPath(_rootPath); // Use field
+                var allowedPath = Path.GetFullPath(_rootPath);
                 return fullPath.StartsWith(allowedPath, StringComparison.OrdinalIgnoreCase)
                        && Directory.Exists(Path.Combine(fullPath, ".git"));
             }
