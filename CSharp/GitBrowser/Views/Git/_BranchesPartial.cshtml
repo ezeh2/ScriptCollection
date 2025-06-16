@@ -7,7 +7,7 @@
 }
 
 <h3>@System.IO.Path.GetFileName(ViewBag.RepoPath)</h3>
-<h2>Branches</h2>
+<h2>Local Branches</h2>
 <ul id="branch-list">
 @foreach (var branch in localBranches)
 {
@@ -15,18 +15,13 @@
         <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
     </li>
 }
-@if (localBranches.Any() && remoteBranches.Any())
-{
-    <li class="branch-separator"><hr /></li>
-}
+</ul>
+<h2>Remote Branches</h2>
+<ul id="branch-list">
 @foreach (var branch in remoteBranches)
 {
     <li class="remote-branch">
         <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
     </li>
 }
-</ul>
-<ul id="branch-legend" style="list-style-type: none; padding-left: 0; margin-top: 15px;">
-    <li style="margin-bottom: 5px;"><span class="local-branch-legend" style="display: inline-block; width: 12px; height: 12px; background-color: blue; margin-right: 5px;"></span> Local Branch</li>
-    <li style="margin-bottom: 5px;"><span class="remote-branch-legend" style="display: inline-block; width: 12px; height: 12px; background-color: green; margin-right: 5px;"></span> Remote Branch</li>
 </ul>
