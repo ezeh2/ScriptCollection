@@ -52,5 +52,44 @@ namespace GitBrowser.E2ETests
             // Check if header row + at least one commit is present, or just header if no commits
             Assert.IsTrue(commitEntries.Count > 0, "Commit log should have at least a header row.");
         }
+
+        [TestMethod]
+        public async Task TestDisplayLocalAndRemoteBranchIndicators()
+        {
+            // Navigate to the home page
+            await Page.GoToAsync(BaseUrl);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Click on the first repository link
+            var repoLinks = await Page.QuerySelectorAllAsync("#repo-list li a");
+            Assert.IsTrue(repoLinks.Any(), "No repositories found.");
+            await repoLinks.First().ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle); // Wait for branches to load
+
+            // Assert that the branch list is displayed
+            var branchList = await Page.QuerySelectorAsync("#branch-list");
+            Assert.IsNotNull(branchList, "Branch list (#branch-list) should be loaded.");
+
+            var branchItems = await Page.QuerySelectorAllAsync("#branch-list li");
+            Assert.IsTrue(branchItems.Any(), "No branches found in the list. Test requires a repo with branches.");
+
+            bool foundLocal = false;
+            bool foundRemote = false;
+            foreach (var item in branchItems)
+            {
+                var textContent = await item.TextContentAsync();
+                if (textContent.Contains(" (Local)"))
+                {
+                    foundLocal = true;
+                }
+                if (textContent.Contains(" (Remote)"))
+                {
+                    foundRemote = true;
+                }
+            }
+
+            Assert.IsTrue(foundLocal, "Expected to find at least one branch marked as '(Local)'. Ensure the test repository has local branches.");
+            Assert.IsTrue(foundRemote, "Expected to find at least one branch marked as '(Remote)'. Ensure the test repository has remote branches.");
+        }
     }
 }

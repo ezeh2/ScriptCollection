@@ -77,8 +77,7 @@ namespace GitBrowser.Services
             }
             using var repo = new Repository(repoPath);
             return repo.Branches
-                .Where(b => !b.IsRemote)
-                .Select(b => new GitBranch { Name = b.FriendlyName })
+        .Select(b => new GitBranch { Name = b.FriendlyName, IsRemote = b.IsRemote }) // Added IsRemote
                 .ToList();
         }
 

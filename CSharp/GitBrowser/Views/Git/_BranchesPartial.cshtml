@@ -10,7 +10,7 @@
 @foreach (var branch in Model)
 {
     <li>
-        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name (@(branch.IsRemote ? "Remote" : "Local"))</a>
     </li>
 }
 </ul>
