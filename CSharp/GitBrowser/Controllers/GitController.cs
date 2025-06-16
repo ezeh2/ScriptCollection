@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using GitBrowser.Services; // Added
 using System.Linq; // For .ToList() and .Any()
-using GitBrowser.Models;
 using System.IO; // Added for Path.GetFileName
 
 public class GitController : Controller

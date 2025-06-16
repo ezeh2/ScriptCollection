@@ -1,6 +1,5 @@
 // CSharp/GitBrowser/Services/IGitService.cs
 using System.Collections.Generic;
-using GitBrowser.Models;
 
 namespace GitBrowser.Services
 {

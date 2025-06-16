@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using GitBrowser.Models;
 using LibGit2Sharp;
 using Microsoft.Extensions.Options;
 
