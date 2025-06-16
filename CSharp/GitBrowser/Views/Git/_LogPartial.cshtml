@@ -10,6 +10,8 @@
         <div>CommitterDate</div>    
         <div>Committer</div>        
         <div class="logentry__message">Message</div>
+        <div>Decorations</div>
+        <div>Notes</div>
     </div>
 @foreach (var commit in Model)
 {
@@ -20,6 +22,28 @@
         <div>@Html.Encode(commit.CommitterDate)</div>    
         <div>@Html.Encode(commit.Committer)</div>        
         <div class="logentry__message">@Html.Encode(commit.Message)</div>
+        <div class="logentry__decorations">
+            @if (commit.Decorations != null && commit.Decorations.Any())
+            {
+                @Html.Encode(string.Join(", ", commit.Decorations))
+            }
+        </div>
+        <div class="logentry__notes">
+            @if (commit.Notes != null && commit.Notes.Any())
+            {
+                // Using <br /> for notes, so need Raw to render the <br /> tag.
+                // Individual notes are already encoded by the service if needed,
+                // but let's assume they are plain text and encode them here for safety.
+                // However, the primary goal is to render <br />.
+                // A safer approach would be to loop and @Html.Encode each note, then add <br />.
+                // For now, sticking to join with <br /> and relying on prior encoding or trusting note content.
+                // Let's refine this: iterate and encode.
+                foreach (var note in commit.Notes)
+                {
+                    @Html.Encode(note) <br />
+                }
+            }
+        </div>
     </div>
 }
 </div>

@@ -77,14 +77,48 @@ namespace GitBrowser.Services
 
             return branch.Commits
                 .Take(50) // Limit to 50 commits for performance
-                .Select(c => new GitCommit
-                {
-                    Sha = c.Sha,
-                    Message = c.MessageShort,
-                    Author = c.Author.Name,
-                    AuthorDate = c.Author.When.DateTime,
-                    Committer = c.Committer.Name,
-                    CommitterDate = c.Committer.When.DateTime
+                .Select(c => {
+                    var gitCommit = new GitCommit
+                    {
+                        Sha = c.Sha,
+                        Message = c.MessageShort,
+                        Author = c.Author.Name,
+                        AuthorDate = c.Author.When.DateTime,
+                        Committer = c.Committer.Name,
+                        CommitterDate = c.Committer.When.DateTime
+                        // Decorations and Notes are initialized by default
+                    };
+
+                    // Populate Decorations
+                    foreach (var reference in repo.Refs)
+                    {
+                        if (reference is DirectReference directRef && directRef.TargetIdentifier == c.Sha)
+                        {
+                            var friendlyName = reference.FriendlyName;
+                            if (friendlyName.StartsWith("refs/heads/"))
+                            {
+                                friendlyName = friendlyName.Substring("refs/heads/".Length);
+                            }
+                            else if (friendlyName.StartsWith("refs/tags/"))
+                            {
+                                friendlyName = friendlyName.Substring("refs/tags/".Length);
+                            }
+                            else if (friendlyName.StartsWith("refs/remotes/"))
+                            {
+                                 friendlyName = friendlyName.Substring("refs/remotes/".Length);
+                            }
+                            // Add other prefixes if needed
+                            gitCommit.Decorations.Add(friendlyName);
+                        }
+                    }
+
+                    // Populate Notes
+                    foreach (var note in c.Notes)
+                    {
+                        gitCommit.Notes.Add(note.Message);
+                    }
+
+                    return gitCommit;
                 }).ToList();
         }
 

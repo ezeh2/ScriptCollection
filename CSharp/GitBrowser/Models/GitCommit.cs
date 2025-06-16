@@ -8,4 +8,6 @@ public class GitCommit
     public DateTime AuthorDate { get; set; }
     public string Committer { get; set; }	
     public DateTime CommitterDate { get; set; }
+    public List<string> Decorations { get; set; } = new List<string>();
+    public List<string> Notes { get; set; } = new List<string>();
 }
