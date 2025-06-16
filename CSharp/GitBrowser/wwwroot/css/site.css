@@ -300,11 +300,11 @@ h2 {
 }
 
 /* Branch styling */
-#branch-list .local-branch a {
+.branch-list .local-branch a {
     color: blue;
 }
 
-#branch-list .remote-branch a {
+.branch-list .remote-branch a {
     color: green;
 }
 
@@ -317,10 +317,10 @@ h2 {
 */
 
 /* Ensure branch links are not overridden by general link styles if they are too generic */
-#branch-list a.branch-link {
+.branch-list a.branch-link {
     text-decoration: none; /* Example: ensure no underline if not desired */
 }
 
-#branch-list a.branch-link:hover {
+.branch-list a.branch-link:hover {
     text-decoration: underline; /* Example: underline on hover */
 }

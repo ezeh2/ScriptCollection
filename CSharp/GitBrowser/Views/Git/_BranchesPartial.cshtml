@@ -8,7 +8,7 @@
 
 <h3>@System.IO.Path.GetFileName(ViewBag.RepoPath)</h3>
 <h2>Local Branches</h2>
-<ul id="branch-list">
+<ul class="branch-list">
 @foreach (var branch in localBranches)
 {
     <li class="local-branch">
@@ -17,7 +17,7 @@
 }
 </ul>
 <h2>Remote Branches</h2>
-<ul id="branch-list">
+<ul class="branch-list">
 @foreach (var branch in remoteBranches)
 {
     <li class="remote-branch">
