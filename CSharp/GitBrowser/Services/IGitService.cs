@@ -1,5 +1,6 @@
 // CSharp/GitBrowser/Services/IGitService.cs
 using System.Collections.Generic;
+using GitBrowser.Models;
 
 namespace GitBrowser.Services
 {
@@ -9,5 +10,6 @@ namespace GitBrowser.Services
         IEnumerable<GitBranch> GetBranches(string repoPath);
         IEnumerable<GitCommit> GetCommits(string repoPath, string branchName);
         bool IsValidRepoPath(string repoPath); // rootPath parameter removed
+        List<GitCommitChange> GetCommitChanges(string repoPath, string commitSha);
     }
 }

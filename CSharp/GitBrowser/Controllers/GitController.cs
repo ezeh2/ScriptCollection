@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using GitBrowser.Services; // Added
 using System.Linq; // For .ToList() and .Any()
+using GitBrowser.Models;
+using System.IO; // Added for Path.GetFileName
 
 public class GitController : Controller
 {
@@ -60,5 +62,28 @@ public class GitController : Controller
 		ViewBag.RepoName = Path.GetFileName(repoPath);
 		ViewBag.BranchName = branchName;		
         return PartialView("_LogPartial", commits);
+    }
+
+    public IActionResult GetCommitChanges(string repoPath, string commitSha)
+    {
+        if (string.IsNullOrEmpty(repoPath) || string.IsNullOrEmpty(commitSha))
+        {
+            return BadRequest("Repository path and commit SHA cannot be empty.");
+        }
+
+        try
+        {
+            var changes = _gitService.GetCommitChanges(repoPath, commitSha);
+            // Store repoPath and commitSha in ViewBag to potentially display them in the partial view if needed
+            ViewBag.RepoPath = repoPath;
+            ViewBag.CommitSha = commitSha;
+            return PartialView("_ChangesPartial", changes);
+        }
+        catch (System.Exception ex)
+        {
+            // Log the exception
+            // Consider returning a specific error view or message
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
     }
 }

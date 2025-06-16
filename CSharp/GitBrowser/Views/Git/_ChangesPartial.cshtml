@@ -1,0 +1,19 @@
+@model List<GitCommitChange>
+
+<h2>Changes</h2>
+<div class="changes-list">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var change in Model)
+        {
+            <div class="change-entry">
+                <span class="change-status-@change.Status.ToLower()">@change.Status</span>
+                <span class="change-filename">@change.FileName</span>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No changes found in this commit.</p>
+    }
+</div>

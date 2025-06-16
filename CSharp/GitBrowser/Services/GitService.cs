@@ -1,8 +1,10 @@
 // CSharp/GitBrowser/Services/GitService.cs
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using GitBrowser.Models;
 using LibGit2Sharp;
 using Microsoft.Extensions.Options;
 
@@ -125,6 +127,80 @@ namespace GitBrowser.Services
                 // Path exceptions, security exceptions etc.
                 return false;
             }
+        }
+
+        public List<GitCommitChange> GetCommitChanges(string repoPath, string commitSha)
+        {
+            var changes = new List<GitCommitChange>();
+            if (string.IsNullOrEmpty(repoPath) || string.IsNullOrEmpty(commitSha))
+            {
+                // Or throw an ArgumentException, depending on desired error handling
+                return changes;
+            }
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "git",
+                Arguments = $"diff-tree --no-commit-id --name-status -r {commitSha}",
+                WorkingDirectory = repoPath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true, // It's good practice to redirect error stream as well
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (var process = Process.Start(startInfo))
+            {
+                if (process == null)
+                {
+                    // Log error or handle appropriately
+                    return changes; // Or throw an exception
+                }
+
+                string output = process.StandardOutput.ReadToEnd();
+                string errorOutput = process.StandardError.ReadToEnd(); // Capture error output
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                {
+                    // Log the error (errorOutput) or throw an exception
+                    // For now, returning an empty list or could throw new InvalidOperationException($"Git command failed with error: {errorOutput}");
+                    Console.Error.WriteLine($"Git diff-tree error for {repoPath}@{commitSha}: {errorOutput}");
+                    return changes; // Or throw
+                }
+
+                var lines = output.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length >= 2)
+                    {
+                        var statusAbbreviation = parts[0].Trim();
+                        var fileName = parts[1].Trim();
+                        string status = statusAbbreviation switch
+                        {
+                            "A" => "Added",
+                            "M" => "Modified",
+                            "D" => "Deleted",
+                            "R" // R seguida por um número, por exemplo R100
+                               when statusAbbreviation.StartsWith("R") => "Renamed",
+                            "C" // C seguida por um número, por exemplo C100
+                               when statusAbbreviation.StartsWith("C") => "Copied",
+                            _ => statusAbbreviation // fallback to abbreviation if unknown
+                        };
+
+                        // If Renamed or Copied, there might be an old filename as well
+                        if ((status == "Renamed" || status == "Copied") && parts.Length > 2)
+                        {
+                            fileName = $"{parts[2].Trim()} (from {parts[1].Trim()})"; // New (from Old)
+                        }
+
+
+                        changes.Add(new GitCommitChange { Status = status, FileName = fileName });
+                    }
+                }
+            }
+            return changes;
         }
     }
 }

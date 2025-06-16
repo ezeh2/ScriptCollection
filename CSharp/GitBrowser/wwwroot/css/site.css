@@ -210,3 +210,84 @@ h2 {
         word-break: break-all; /* Break long words if necessary */
     }
 }
+
+/* Styling for the new 'Changes' panel */
+#changes {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    height: 300px; /* Or as desired */
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+#changes h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.changes-list {
+    margin-top: 10px;
+}
+
+.change-entry {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; /* For aligning status and filename */
+    align-items: center;
+}
+
+.change-entry:last-child {
+    border-bottom: none;
+}
+
+.change-status-added {
+    color: green;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px; /* Give it some space */
+    display: inline-block;
+}
+
+.change-status-modified {
+    color: orange;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-deleted {
+    color: red;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-renamed {
+    color: blue;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-copied {
+    color: purple;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-filename {
+    font-family: monospace; /* Good for filenames */
+}
+
+/* Style for loading/error messages within #changes */
+#changes p {
+    font-style: italic;
+    color: #555;
+}
