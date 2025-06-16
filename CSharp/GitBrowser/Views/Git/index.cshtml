@@ -1,8 +1,8 @@
 @model List<GitRepo>
 
-<div id="repos">
+<div class="repos">
 <h2>Repositories</h2>
-<ul id="repo-list">
+<ul class="repo-list">
 @foreach (var repo in Model)
 {
     <li>
@@ -12,9 +12,9 @@
 </ul>
 </div>
 
-<div id="branches"></div>
-<div id="commits"></div>
-<div id="changes"></div>
+<div class="branches"></div>
+<div class="commits"></div>
+<div class="changes"></div>
 
 
 <script src="lib/jquery-3.6.0.min.js"></script>

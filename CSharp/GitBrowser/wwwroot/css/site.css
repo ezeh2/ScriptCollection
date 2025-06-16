@@ -34,7 +34,7 @@ html {
 }
 
 /* block */
-#repos
+.repos
 {
 	grid-area: a;
 	padding: 15px;
@@ -44,7 +44,7 @@ html {
 }
 
 /* block */
-#branches
+.branches
 {
 	grid-area: b;	
 	padding: 15px;
@@ -54,7 +54,7 @@ html {
 }
 
 /* block */
-#commits
+.commits
 {
 	grid-area: c;
 	padding: 15px;
@@ -64,11 +64,11 @@ html {
 }
 
 /* Style for repo list items */
-ul#repo-list li {
+ul.repo-list li {
     margin-bottom: 8px;
 }
 
-/* element of #commits */
+/* element of .commits */
 .logentries
 {
 }
@@ -98,7 +98,7 @@ ul#repo-list li {
 	background-color: var(--even-row-bg-color);
 }
 
-/* element of #commits */
+/* element of .commits */
 .logentry > div
 {
 	width:150px;
@@ -152,8 +152,8 @@ h2 {
 }
 
 /* Placeholder messages for empty sections */
-#branches:empty::before,
-#commits:empty::before {
+.branches:empty::before,
+.commits:empty::before {
     content: "Select a repository to see branches.";
     display: block;
     padding: 20px;
@@ -162,7 +162,7 @@ h2 {
     text-align: center;
 }
 
-#commits:empty::before {
+.commits:empty::before {
     content: "Select a branch to see commits.";
 }
 
@@ -177,7 +177,7 @@ h2 {
         padding: 15px; /* Optionally adjust padding for smaller screens */
     }
 
-    #repos, #branches, #commits {
+    .repos, .branches, .commits {
         /* Adjust padding if necessary for smaller screens, though the container padding might be enough */
         padding: 10px;
     }
@@ -212,7 +212,7 @@ h2 {
 }
 
 /* Styling for the new 'Changes' panel */
-#changes {
+.changes {
     border: 1px solid #ccc;
     overflow-y: auto; /* Add scroll if content overflows */
 	
@@ -222,7 +222,7 @@ h2 {
 	background-color: #ffffff;	
 }
 
-#changes h2 {
+.changes h2 {
     margin-top: 0;
     font-size: 1.2em;
     border-bottom: 1px solid #eee;
@@ -288,12 +288,12 @@ h2 {
     font-family: monospace; /* Good for filenames */
 }
 
-#changes.changes-panel-pending .change-entry {
+.changes.changes-panel-pending .change-entry {
     opacity: 0.5;
 }
 
-/* Style for loading/error messages within #changes */
-#changes p {
+/* Style for loading/error messages within .changes */
+.changes p {
 	grid-area: d;
     font-style: italic;
     color: #555;
