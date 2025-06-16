@@ -24,11 +24,11 @@ html {
 .container
 {
 	display:grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2,auto);
 	grid-template-areas:
-		"a b"
-		"c d";
+		"a b d"
+		"c c c";
 	gap: 20px;
 	padding: 20px;
 }
@@ -214,9 +214,12 @@ h2 {
 /* Styling for the new 'Changes' panel */
 #changes {
     border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 10px;
     overflow-y: auto; /* Add scroll if content overflows */
+	
+	padding: 15px;
+	border: 1px solid var(--border-color);
+	border-radius: 5px;
+	background-color: #ffffff;	
 }
 
 #changes h2 {
