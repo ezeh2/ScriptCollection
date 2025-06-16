@@ -288,6 +288,10 @@ h2 {
     font-family: monospace; /* Good for filenames */
 }
 
+#changes.changes-panel-pending .change-entry {
+    opacity: 0.5;
+}
+
 /* Style for loading/error messages within #changes */
 #changes p {
 	grid-area: d;

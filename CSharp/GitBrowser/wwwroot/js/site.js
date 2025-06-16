@@ -6,6 +6,8 @@
 
 $(document).on('click', '.repo-link', function(e) {
     e.preventDefault();
+    $('#changes').addClass('changes-panel-pending');
+    $('#changes').html('<p>Select a branch and then a commit to see file changes.</p>');
     var path = $(this).data('path');
     $('#commits').addClass('commits-stale');
     $.get('/Git/Branches', { repoPath: path }, function(data) {
@@ -15,6 +17,8 @@ $(document).on('click', '.repo-link', function(e) {
 
 $(document).on('click', '.branch-link', function(e) {
     e.preventDefault();
+    $('#changes').addClass('changes-panel-pending');
+    $('#changes').html('<p>Select a commit to see file changes.</p>');
     var path = $(this).data('path');
     var branch = $(this).data('branch');
     $('#commits').removeClass('commits-stale');
@@ -57,6 +61,7 @@ $(document).ready(function () {
                     commitSha: commitSha
                 },
                 success: function (data) {
+                    $('#changes').removeClass('changes-panel-pending');
                     $('#changes').html(data);
                 },
                 error: function (xhr, status, error) {
