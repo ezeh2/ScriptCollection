@@ -98,7 +98,8 @@ namespace GitBrowser.Services
                 .Select(c => new GitCommit
                 {
                     Sha = c.Sha,
-                    Message = c.MessageShort,
+                    MessageShort = c.MessageShort,					
+                    Message = c.Message,
                     Author = c.Author.Name,
                     AuthorDate = c.Author.When.DateTime,
                     Committer = c.Committer.Name,
