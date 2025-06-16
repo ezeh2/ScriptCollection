@@ -1,20 +1,24 @@
 
-/* defines a couple of colors to be used in this file (site.css). Example usage: var(--bg1)  */
 :root {
-	--bg1:#F0F0F0;
-	--bg2:#E0E0E0;	
-	--bg3:#D0D0D0;
-	--bg4:#C0C0C0;		
-	--bg5:#C0D0C0;		
-	--bg6:#C0C0D0;	
-	--bc1:#FFC0C0;
-	--ic1:#F0D080;
-	--ic2:#F0B080;	
+    --primary-color: #2c3e50; /* Dark Blue/Grey */
+    --secondary-color: #34495e; /* Slightly Lighter Blue/Grey */
+    --accent-color: #1abc9c; /* Turquoise */
+    --background-color: #ecf0f1; /* Light Grey */
+    --text-color: #333333;
+    --border-color: #bdc3c7;
+    --hover-bg-color: #34495e;
+    --hover-text-color: #ffffff;
+    --header-bg-color: #1abc9c;
+    --header-text-color: #ffffff;
+    --even-row-bg-color: #f8f9fa; /* Lighter grey for zebra striping */
 }
 
 
 html {
   font-size: 14px;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color); /* Set global background */
 }
 
 .container
@@ -25,25 +29,43 @@ html {
 	grid-template-areas:
 		"a b"
 		"c c";
-	gap: 10px;
+	gap: 20px;
+	padding: 20px;
 }
 
 /* block */
 #repos
 {
 	grid-area: a;
+	padding: 15px;
+	border: 1px solid var(--border-color);
+	border-radius: 5px;
+	background-color: #ffffff;
 }
 
 /* block */
 #branches
 {
 	grid-area: b;	
+	padding: 15px;
+	border: 1px solid var(--border-color);
+	border-radius: 5px;
+	background-color: #ffffff;
 }
 
 /* block */
 #commits
 {
 	grid-area: c;
+	padding: 15px;
+	border: 1px solid var(--border-color);
+	border-radius: 5px;
+	background-color: #ffffff;
+}
+
+/* Style for repo list items */
+ul#repo-list li {
+    margin-bottom: 8px;
 }
 
 /* element of #commits */
@@ -65,13 +87,15 @@ html {
 
 .logentry__header > div
 {
-	background-color: var(--bg6);
+	background-color: var(--header-bg-color);
+	color: var(--header-text-color);
+	padding: 8px 5px; /* Add consistent padding */
 }
 
 /* zebra */
 .logentry:nth-of-type(even) > div
 {
-	background-color: var(--bg1);
+	background-color: var(--even-row-bg-color);
 }
 
 /* element of #commits */
@@ -80,6 +104,8 @@ html {
 	width:150px;
 	border-top-style: solid;
 	border-top-width: 1px;
+	border-top-color: var(--border-color);
+	padding: 8px 5px; /* Add some internal padding */
 }
 
 div.logentry__commitId
@@ -91,15 +117,96 @@ div.logentry__message
 {
 	/* last item should fill all remaining space */
 	flex-grow: 1;
-	white-space: nowrap
+	white-space: nowrap;
+	padding-left: 10px; /* Add more left padding for the message part */
 }
 
 div.logentry:hover > div
 {
-	color: white;
-	background-color: black;
+	color: var(--hover-text-color);
+	background-color: var(--hover-bg-color);
 }
 
 .commits-stale {
-    color: lightgray;
+    color: lightgray; /* This could potentially also use a variable, but the spec didn't mention it */
+}
+
+/* General link styles */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+
+/* Section header styles */
+h2 {
+    color: var(--primary-color);
+    font-size: 1.5em; /* Adjust size as needed */
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px;
+}
+
+/* Placeholder messages for empty sections */
+#branches:empty::before,
+#commits:empty::before {
+    content: "Select a repository to see branches.";
+    display: block;
+    padding: 20px;
+    color: var(--text-color);
+    font-style: italic;
+    text-align: center;
+}
+
+#commits:empty::before {
+    content: "Select a branch to see commits.";
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Single column */
+        grid-template-areas:
+            "a" /* Repos */
+            "b" /* Branches */
+            "c"; /* Commits */
+        gap: 15px; /* Optionally adjust gap for smaller screens */
+        padding: 15px; /* Optionally adjust padding for smaller screens */
+    }
+
+    #repos, #branches, #commits {
+        /* Adjust padding if necessary for smaller screens, though the container padding might be enough */
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.3em; /* Slightly smaller headers on small screens */
+    }
+
+    /* Adjust log entry display for very narrow screens if necessary.
+       For example, reduce padding or hide less critical information.
+       For now, let's ensure the flex layout of logentry doesn't break.
+       The `white-space: nowrap` on `div.logentry__message` might be an issue.
+       Let's allow it to wrap on small screens. */
+    .logentry {
+        flex-direction: column; /* Stack log entry items vertically */
+    }
+
+    .logentry > div {
+        width: auto; /* Allow divs within logentry to take full width */
+        border-bottom: 1px solid var(--border-color); /* Add border between stacked items */
+        border-top-width: 0; /* Remove top border as bottom border serves separation */
+    }
+
+    .logentry > div:first-child {
+         border-top-width: 1px; /* Keep top border for the first item */
+    }
+
+    div.logentry__message {
+        white-space: normal; /* Allow message to wrap */
+        word-break: break-all; /* Break long words if necessary */
+    }
 }
