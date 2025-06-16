@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PlaywrightSharp;
+using Microsoft.Playwright;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -19,13 +19,13 @@ namespace GitBrowser.E2ETests
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             BaseUrl = configuration["BaseUrlForE2ETesting"];
 
-            Playwright = await PlaywrightSharp.Playwright.CreateAsync();
-            Browser = await Playwright.Chromium.LaunchAsync(new LaunchOptions { Headless = true }); // Use Headless = false for debugging
+            Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
+            Browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }); // Use Headless = false for debugging
             Page = await Browser.NewPageAsync();
         }
 

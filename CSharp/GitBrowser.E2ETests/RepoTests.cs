@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PlaywrightSharp;
+using Microsoft.Playwright;
 using System.Threading.Tasks;
 
 namespace GitBrowser.E2ETests
@@ -11,7 +11,7 @@ namespace GitBrowser.E2ETests
         public async Task TestListRepositoriesAndNavigateToBranches()
         {
             // Navigate to the home page
-            await Page.GoToAsync(BaseUrl);
+            await Page.GotoAsync(BaseUrl);
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             // Assert that the repository list is displayed
@@ -19,11 +19,11 @@ namespace GitBrowser.E2ETests
             Assert.IsNotNull(repoList, "Repository list (#repo-list) should be present.");
 
             var repoLinks = await Page.QuerySelectorAllAsync("#repo-list li a");
-            Assert.IsTrue(repoLinks.Count > 0, "There should be at least one repository listed.");
+            Assert.IsTrue(repoLinks.Count() > 0, "There should be at least one repository listed.");
 
             // Get the path of the first repository
-            var firstRepoLink = repoLinks[0];
-            var repoName = await firstRepoLink.TextContentAsync();
+            var firstRepoLink = repoLinks.First();
+            var repoName = await firstRepoLink.InnerTextAsync();
             var repoPath = await firstRepoLink.GetAttributeAsync("data-path");
 
             Assert.IsFalse(string.IsNullOrEmpty(repoName), "Repository name should not be empty.");
@@ -41,7 +41,7 @@ namespace GitBrowser.E2ETests
             // This assertion depends on the test environment having repos with branches.
             // For now, we'll just check if the container is there.
             // A more robust test would ensure a specific test repo with known branches exists.
-            Assert.IsTrue(branchLinks.Count >= 0, "Branch list should be present, even if empty.");
+            Assert.IsTrue(branchLinks.Count() >= 0, "Branch list should be present, even if empty.");
         }
     }
 }
