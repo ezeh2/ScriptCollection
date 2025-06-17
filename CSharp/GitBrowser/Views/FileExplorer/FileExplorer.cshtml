@@ -1,0 +1,87 @@
+@model FileExplorerViewModel
+@using System.IO
+
+@{
+    ViewData["Title"] = "File Explorer - " + Model.CurrentPath;
+    string parentPath = null;
+    if (Model.CurrentPath != null && Model.CurrentPath.TrimEnd('/').Length > 0 && Model.CurrentPath != "/") // Handle root path for Linux-like systems
+    {
+        parentPath = System.IO.Path.GetDirectoryName(Model.CurrentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar));
+        if (string.IsNullOrEmpty(parentPath)) // Handles cases like "C:\" where GetDirectoryName might return null or root itself.
+        {
+            // Check if it was a root drive like "C:\" -> GetDirectoryName might be null
+            // Or if it was a single segment path like "folder" -> GetDirectoryName might be ""
+            // In such cases, parent could be considered root, or handled based on specific OS behavior
+            var root = System.IO.Path.GetPathRoot(Model.CurrentPath);
+            if (!string.IsNullOrEmpty(root) && Model.CurrentPath != root) {
+                 parentPath = root;
+            } else if (Model.CurrentPath.Contains(System.IO.Path.DirectorySeparatorChar) || Model.CurrentPath.Contains(System.IO.Path.AltDirectorySeparatorChar)) {
+                // If it had a separator, but GetDirectoryName is empty (e.g. "folder/"), go to root-like concept
+                // This might need more robust logic depending on how paths are expected to be formatted (absolute/relative)
+                // For this example, let's assume a simple upward navigation for non-root paths.
+                // If GetDirectoryName is empty for a path like "topdir", this logic might need adjustment.
+                // A common scenario: path is "C:\", GetDirectoryName is null. Path is "C:\Windows", GetDirectoryName is "C:\"
+            } else {
+                // It's a single segment path without separators, maybe treat parent as "." or "/"
+                // For simplicity, if path is "mydir", parentPath becomes "" by GetDirectoryName.
+                // Let's default to root if it becomes empty and wasn't already root.
+                 parentPath = "/"; // Default to web root style for safety if path becomes empty
+            }
+        }
+    }
+    // Ensure parentPath for root of a drive like "C:\" doesn't try to go further up.
+    if (parentPath != null && parentPath == Model.CurrentPath) { // e.g. Model.CurrentPath was "C:\", GetDirectoryName is "C:\"
+        parentPath = null; // No parent link
+    }
+     // Special case for when current path is just "/"
+    if (Model.CurrentPath == "/")
+    {
+        parentPath = null;
+    }
+}
+
+<h1>File Explorer</h1>
+<p><strong>Current Path:</strong> @Model.CurrentPath</p>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p style="color: red;"><strong>Error:</strong> @Model.ErrorMessage</p>
+}
+
+<ul>
+    @if (parentPath != null)
+    {
+        <li><a href="@Url.Action("Index", "FileExplorer", new { path = parentPath })">⬆️ Parent Directory</a></li>
+    }
+    else
+    {
+        <li style="color: gray;">⬆️ Parent Directory (Root)</li>
+    }
+
+    @foreach (var entry in Model.Entries)
+    {
+        <li>
+            @if (entry.IsDirectory)
+            {
+                <span>📁</span>
+                <a href="@Url.Action("Index", "FileExplorer", new { path = entry.FullPath })">@entry.Name</a>
+            }
+            else
+            {
+                <span>📄</span>
+                <span>@entry.Name</span>
+            }
+        </li>
+    }
+
+    @if (!Model.Entries.Any() && string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <li><em>(empty directory)</em></li>
+    }
+</ul>
+
+<style>
+    ul { list-style-type: none; padding-left: 0; }
+    li { margin-bottom: 5px; }
+    span { margin-right: 5px; }
+</style>
