@@ -11,6 +11,8 @@
     --header-bg-color: #1abc9c;
     --header-text-color: #ffffff;
     --even-row-bg-color: #f8f9fa; /* Lighter grey for zebra striping */
+    --panel-hover-bg-color: #f0f3f4; /* A slightly lighter shade than --background-color */
+    --panel-hover-border-color: #a7b3c7; /* A slightly brighter shade than --border-color */
 }
 
 
@@ -140,6 +142,7 @@ a {
 a:hover {
     text-decoration: underline;
     color: var(--primary-color);
+    font-weight: bold;
 }
 
 /* Section header styles */
@@ -297,6 +300,17 @@ h2 {
 	grid-area: d;
     font-style: italic;
     color: #555;
+}
+
+/* Hover effects for panels */
+.repos:hover,
+.branches:hover,
+.commits:hover,
+.changes:hover {
+    transform: scale(1.02);
+    background-color: var(--panel-hover-bg-color);
+    border-color: var(--panel-hover-border-color);
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
 /* Branch styling */
