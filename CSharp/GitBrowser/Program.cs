@@ -17,6 +17,7 @@ namespace YourNamespace
             // Add services to the container.
             builder.Services.Configure<GitSettings>(builder.Configuration.GetSection("GitSettings")); // Added
             builder.Services.AddScoped<IGitService, GitService>(); // Added
+            builder.Services.AddScoped<IApiGitService, ApiGitService>(); // Added
             builder.Services.AddScoped<IFileExplorerService, FileExplorerService>(); // Added
 			// this enables the automatic compilation of cshtml-files
 			// to see the automatic compilation om the commandline following line was added to appsettings.json
