@@ -33,34 +33,29 @@ html {
 	padding: 20px;
 }
 
+.panel {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
 /* block */
 .repos
 {
 	grid-area: a;
-	padding: 15px;
-	border: 1px solid var(--border-color);
-	border-radius: 5px;
-	background-color: #ffffff;
 }
 
 /* block */
 .branches
 {
 	grid-area: b;	
-	padding: 15px;
-	border: 1px solid var(--border-color);
-	border-radius: 5px;
-	background-color: #ffffff;
 }
 
 /* block */
 .commits
 {
 	grid-area: c;
-	padding: 15px;
-	border: 1px solid var(--border-color);
-	border-radius: 5px;
-	background-color: #ffffff;
 }
 
 /* Style for repo list items */
@@ -213,13 +208,7 @@ h2 {
 
 /* Styling for the new 'Changes' panel */
 .changes {
-    border: 1px solid #ccc;
     overflow-y: auto; /* Add scroll if content overflows */
-	
-	padding: 15px;
-	border: 1px solid var(--border-color);
-	border-radius: 5px;
-	background-color: #ffffff;	
 }
 
 .changes h2 {
