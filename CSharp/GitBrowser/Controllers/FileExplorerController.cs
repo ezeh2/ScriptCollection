@@ -20,13 +20,11 @@ namespace GitBrowser.Controllers
                 path = "/"; // Default to root directory if no path is provided
             }
 
-            // Assuming FileExplorerService has a method GetDirectoryContents
-            // that returns a list of objects representing files and directories.
-            // Let's define a simple model for this, e.g., FileEntryViewModel.
-            var directoryContents = _fileExplorerService.GetDirectoryContents(path);
+            var directoryContentsViewModel = _fileExplorerService.GetDirectoryContents(path);
+            // The service now sets ParentPath internally
 
-            ViewBag.CurrentPath = path;
-            return View("FileExplorer", directoryContents);
+            ViewBag.CurrentPath = path; // Can remain, or be removed if view fully relies on Model.
+            return View("FileExplorer", directoryContentsViewModel);
         }
     }
 }

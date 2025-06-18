@@ -1,43 +1,7 @@
 @model FileExplorerViewModel
-@using System.IO
 
 @{
-    ViewData["Title"] = "File Explorer - " + Model.CurrentPath;
-    string parentPath = null;
-    if (Model.CurrentPath != null && Model.CurrentPath.TrimEnd('/').Length > 0 && Model.CurrentPath != "/") // Handle root path for Linux-like systems
-    {
-        parentPath = System.IO.Path.GetDirectoryName(Model.CurrentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar));
-        if (string.IsNullOrEmpty(parentPath)) // Handles cases like "C:\" where GetDirectoryName might return null or root itself.
-        {
-            // Check if it was a root drive like "C:\" -> GetDirectoryName might be null
-            // Or if it was a single segment path like "folder" -> GetDirectoryName might be ""
-            // In such cases, parent could be considered root, or handled based on specific OS behavior
-            var root = System.IO.Path.GetPathRoot(Model.CurrentPath);
-            if (!string.IsNullOrEmpty(root) && Model.CurrentPath != root) {
-                 parentPath = root;
-            } else if (Model.CurrentPath.Contains(System.IO.Path.DirectorySeparatorChar) || Model.CurrentPath.Contains(System.IO.Path.AltDirectorySeparatorChar)) {
-                // If it had a separator, but GetDirectoryName is empty (e.g. "folder/"), go to root-like concept
-                // This might need more robust logic depending on how paths are expected to be formatted (absolute/relative)
-                // For this example, let's assume a simple upward navigation for non-root paths.
-                // If GetDirectoryName is empty for a path like "topdir", this logic might need adjustment.
-                // A common scenario: path is "C:\", GetDirectoryName is null. Path is "C:\Windows", GetDirectoryName is "C:\"
-            } else {
-                // It's a single segment path without separators, maybe treat parent as "." or "/"
-                // For simplicity, if path is "mydir", parentPath becomes "" by GetDirectoryName.
-                // Let's default to root if it becomes empty and wasn't already root.
-                 parentPath = "/"; // Default to web root style for safety if path becomes empty
-            }
-        }
-    }
-    // Ensure parentPath for root of a drive like "C:\" doesn't try to go further up.
-    if (parentPath != null && parentPath == Model.CurrentPath) { // e.g. Model.CurrentPath was "C:\", GetDirectoryName is "C:\"
-        parentPath = null; // No parent link
-    }
-     // Special case for when current path is just "/"
-    if (Model.CurrentPath == "/")
-    {
-        parentPath = null;
-    }
+    ViewData["Title"] = "File Explorer - " + (Model.CurrentPath ?? "Root");
 }
 
 <h1>File Explorer</h1>
@@ -48,40 +12,95 @@
     <p style="color: red;"><strong>Error:</strong> @Model.ErrorMessage</p>
 }
 
-<ul>
-    @if (parentPath != null)
-    {
-        <li><a href="@Url.Action("Index", "FileExplorer", new { path = parentPath })">⬆️ Parent Directory</a></li>
-    }
-    else
-    {
-        <li style="color: gray;">⬆️ Parent Directory (Root)</li>
-    }
+<div class="file-explorer-container">
+    <div class="left-pane">
+        <h3>Folders</h3>
+        @if (Model.ParentPath != null)
+        {
+            <div class="pane-item">
+                <a href="@Url.Action("Index", "FileExplorer", new { path = Model.ParentPath })">
+                    <span class="pane-icon">⬆️</span> Parent Directory
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="pane-item">
+                <span class="pane-icon">⬆️</span> Parent Directory (Root)
+            </div>
+        }
 
-    @foreach (var entry in Model.Entries)
-    {
-        <li>
-            @if (entry.IsDirectory)
+        @if (Model.DirectoryEntries != null && Model.DirectoryEntries.Any())
+        {
+            foreach (var dirEntry in Model.DirectoryEntries)
             {
-                <span>📁</span>
-                <a href="@Url.Action("Index", "FileExplorer", new { path = entry.FullPath })">@entry.Name</a>
+                <div class="pane-item">
+                    <span class="pane-icon">📁</span>
+                    <a href="@Url.Action("Index", "FileExplorer", new { path = dirEntry.FullPath })">@dirEntry.Name</a>
+                </div>
             }
-            else
+        }
+        else
+        {
+            // Refined logic for "No sub-directories" using Model.ParentPath
+            if (!(Model.ParentPath == null && (Model.CurrentPath == "/" || string.IsNullOrEmpty(Model.CurrentPath))))
             {
-                <span>📄</span>
-                <span>@entry.Name</span>
+                 <p><em>No sub-directories.</em></p>
             }
-        </li>
-    }
+            // This second condition might need further review for its logic with Model.ParentPath
+            else if (Model.DirectoryEntries != null && !Model.DirectoryEntries.Any() && (Model.ParentPath != null || (Model.CurrentPath != "/" && !string.IsNullOrEmpty(Model.CurrentPath) ) ) )
+            {
+                 // Handles case where it's not root, parent exists, but still no directories
+                 <p><em>No sub-directories.</em></p>
+            }
+        }
+    </div>
 
-    @if (!Model.Entries.Any() && string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <li><em>(empty directory)</em></li>
-    }
-</ul>
+    <div class="right-pane">
+        <h3>Files in @(Model.CurrentPath ?? "current directory")</h3>
+        @if (Model.FileEntries != null && Model.FileEntries.Any())
+        {
+            foreach (var fileEntry in Model.FileEntries)
+            {
+                <div class="pane-item">
+                    <span class="pane-icon">📄</span>
+                    <span>@fileEntry.Name</span>
+                </div>
+            }
+        }
+        else
+        {
+            <p><em>No files in this directory.</em></p>
+        }
+    </div>
+</div>
 
 <style>
-    ul { list-style-type: none; padding-left: 0; }
-    li { margin-bottom: 5px; }
-    span { margin-right: 5px; }
+    .file-explorer-container {
+        display: flex;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .left-pane {
+        flex: 1;
+        padding-right: 15px;
+        margin-right: 15px;
+        border-right: 1px solid #ccc;
+        min-height: 200px;
+    }
+    .right-pane {
+        flex: 2;
+        min-height: 200px;
+    }
+    .pane-item {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+    }
+    .pane-icon {
+        margin-right: 8px;
+    }
+    h3 {
+        margin-top: 0;
+    }
 </style>
