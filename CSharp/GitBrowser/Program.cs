@@ -32,12 +32,12 @@ namespace YourNamespace
 
             app.Use((context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
-                context.Response.Headers.Add("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';";
+                context.Response.Headers["X-Content-Type-Options"] =  "nosniff";
+                context.Response.Headers["X-Frame-Options"] =  "DENY";
+                context.Response.Headers["Referrer-Policy"] =  "strict-origin-when-cross-origin";
+                context.Response.Headers["Permissions-Policy"] =  "camera=(), microphone=(), geolocation=()";
+                context.Response.Headers["X-XSS-Protection"] =  "1; mode=block";
                 return next();
             });
 
