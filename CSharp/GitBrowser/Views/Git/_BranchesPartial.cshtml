@@ -6,6 +6,7 @@
     var remoteBranches = Model.Where(b => b.IsRemote).ToList();
 }
 
+<input type="text" id="branchFilterInput" placeholder="Filter branches...">
 <h3>@System.IO.Path.GetFileName(ViewBag.RepoPath)</h3>
 <h2>Local Branches</h2>
 <ul class="branch-list">

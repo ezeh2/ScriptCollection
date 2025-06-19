@@ -85,5 +85,26 @@ $(document).ready(function () {
     // Make sure this is done where $('.commits').html(data) is called for _LogPartial.cshtml
 });
 
+// jQuery-based branch filtering logic
+$(document).ready(function() {
+  const branchFilterInput = $('#branchFilterInput'); // jQuery selector
 
-
+  if (branchFilterInput.length) { // Check if element exists
+    branchFilterInput.on('input', function() {
+      const filterText = $(this).val().toLowerCase();
+      // Adjust selector if other .branch-list elements exist that shouldn't be filtered
+      $('.branch-list li').each(function() {
+        const branchElement = $(this);
+        const linkElement = branchElement.find('a.branch-link'); // Find the link inside the li
+        if (linkElement.length) {
+          const branchName = linkElement.text().toLowerCase();
+          if (branchName.includes(filterText)) {
+            branchElement.show(); // jQuery show
+          } else {
+            branchElement.hide(); // jQuery hide
+          }
+        }
+      });
+    });
+  }
+});
