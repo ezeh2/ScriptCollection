@@ -24,6 +24,17 @@ namespace YourNamespace
 			// "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "Debug"	 
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowWebApp",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                               .WithHeaders("Content-Type");
+                    });
+            });
+
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
                 serverOptions.AddServerHeader = false;
@@ -51,6 +62,9 @@ namespace YourNamespace
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCors("AllowWebApp");
+
             app.UseRouting();
             app.UseAuthorization();
 
