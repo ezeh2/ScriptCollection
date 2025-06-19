@@ -3,7 +3,6 @@ using GitBrowser.Services; // Assuming IGitService will be used
 using System.Linq; // For .ToList() and .Any()
 using System.Threading.Tasks; // For async operations if needed later
 using System.Collections.Generic; // For IEnumerable
-using GitBrowser.Models; // For GitRepo, GitBranch, GitCommit, GitCommitChange
 
 namespace GitBrowser.Controllers
 {

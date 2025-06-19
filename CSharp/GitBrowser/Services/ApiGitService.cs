@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using GitBrowser.Models; // For GitRepo
 using Microsoft.Extensions.Options; // If settings were needed, but not for this specific task
 
 namespace GitBrowser.Services
