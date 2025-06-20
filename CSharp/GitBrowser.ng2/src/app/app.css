@@ -1,0 +1,77 @@
+:host {
+  font-family: sans-serif;
+}
+
+.container {
+  padding: 20px;
+}
+
+header h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 20px; /* Space between columns */
+}
+
+.column {
+  flex: 1; /* Each column tries to take equal space */
+  min-width: 250px; /* Minimum width before wrapping or shrinking */
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.column h2 {
+  margin-top: 0;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* Styling for loading messages within columns */
+.column p[ngif*="isLoading"] { /* More specific selector for loading paragraphs if needed */
+  color: #007bff; /* Blue to indicate activity */
+  font-style: italic;
+  padding: 10px;
+  text-align: center;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.error-message {
+  background-color: #f8d7da; /* Bootstrap's danger background */
+  color: #721c24; /* Bootstrap's danger text */
+  border: 1px solid #f5c6cb; /* Bootstrap's danger border */
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: .25rem; /* Bootstrap's border-radius */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-message p {
+  margin: 0;
+}
+
+.error-message button {
+  background-color: #721c24; /* Darker red, matching text for contrast */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: .2rem;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.error-message button:hover {
+  background-color: #5a161c; /* Slightly darker on hover */
+}

@@ -1,0 +1,9 @@
+<ul *ngIf="changes.length > 0; else noItems">
+  <li *ngFor="let change of changes">
+    <div class="change-info">
+      <strong>{{ change.filePath }}</strong> ({{ change.changeKind }})
+    </div>
+    <pre *ngIf="change.patch">{{ change.patch }}</pre>
+  </li>
+</ul>
+<ng-template #noItems><p>No changes found for this commit.</p></ng-template>

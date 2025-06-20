@@ -1,0 +1,47 @@
+/* src/app/repo-list/repo-list.component.css */
+:host {
+  display: block; /* Allows component to take up layout space if needed */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px; /* Consistent with old app.component.css */
+  overflow-y: auto;
+}
+
+li {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  font-size: 0.95em;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover {
+  background-color: #e9ecef; /* Light grey hover */
+  color: #0056b3; /* Darker blue on hover */
+}
+
+li.selected {
+  background-color: #007bff; /* Primary blue for selection */
+  color: white;
+  font-weight: 600;
+}
+
+li.selected:hover {
+  background-color: #0056b3; /* Darker blue for selected hover */
+}
+
+/* Styling for the 'No items' message, using the global class from styles.css as a base */
+.no-items-text {
+  /* Inherits from global, can add specific overrides here if needed */
+  margin-top: 0; /* Remove margin if ul had border and this is inside */
+}

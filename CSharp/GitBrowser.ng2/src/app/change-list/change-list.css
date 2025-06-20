@@ -1,0 +1,62 @@
+/* src/app/change-list/change-list.component.css */
+:host {
+  display: block;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px; /* Or a different height if appropriate for changes */
+  overflow-y: auto;
+}
+
+li {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+.change-info {
+  margin-bottom: 10px;
+}
+
+.change-info strong { /* filePath */
+  font-weight: 600;
+  color: #333;
+  font-size: 1.05em;
+}
+
+.change-info span { /* changeKind */
+  font-style: italic;
+  color: #555;
+  margin-left: 8px;
+  font-size: 0.9em;
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: #f8f9fa; /* Lighter background for patch */
+  border: 1px solid #dee2e6; /* Subtle border */
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto; /* Scroll for wide patches */
+  white-space: pre-wrap; /* Wrap lines but preserve formatting */
+  word-wrap: break-word; /* Break long words if necessary */
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #212529; /* Darker text for readability */
+}
+
+/* Styling for the 'No items' message */
+.no-items-text {
+  margin-top: 0;
+}

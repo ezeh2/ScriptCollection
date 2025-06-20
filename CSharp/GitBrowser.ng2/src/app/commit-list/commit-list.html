@@ -1,0 +1,13 @@
+<ul *ngIf="commits.length > 0; else noItems">
+  <li *ngFor="let commit of commits"
+      (click)="onSelect(commit)"
+      [class.selected]="commit === selectedCommit">
+    <div class="commit-info">
+      <strong class="commit-message">{{ commit.message }}</strong>
+      <span class="commit-sha">({{ shortSha(commit.sha) }})</span>
+      <span class="commit-author">{{ commit.authorName }} &lt;{{ commit.authorEmail }}&gt;</span>
+      <span class="commit-date">{{ commit.date | date:'short' }}</span>
+    </div>
+  </li>
+</ul>
+<ng-template #noItems><p>No commits found.</p></ng-template>

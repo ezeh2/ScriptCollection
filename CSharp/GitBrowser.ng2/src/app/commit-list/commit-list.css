@@ -1,0 +1,79 @@
+/* src/app/commit-list/commit-list.component.css */
+:host {
+  display: block;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+li {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover {
+  background-color: #e9ecef;
+}
+
+li.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+li.selected .commit-info .commit-sha,
+li.selected .commit-info .commit-author,
+li.selected .commit-info .commit-date {
+  color: #f0f0f0; /* Lighter text for secondary info when selected */
+}
+
+li.selected .commit-info .commit-message {
+  color: white; /* Ensure message stays white */
+}
+
+
+.commit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Space between elements in the commit info */
+}
+
+.commit-message {
+  font-weight: 600; /* Make commit message prominent */
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.commit-sha {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.85em;
+  color: #555;
+}
+
+.commit-author {
+  font-size: 0.85em;
+  color: #555;
+}
+
+.commit-date {
+  font-size: 0.8em;
+  color: #777;
+}
+
+/* Styling for the 'No items' message */
+.no-items-text {
+  margin-top: 0;
+}

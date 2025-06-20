@@ -1,0 +1,8 @@
+<ul *ngIf="branches.length > 0; else noItems">
+  <li *ngFor="let branch of branches"
+      (click)="onSelect(branch)"
+      [class.selected]="branch === selectedBranch">
+    {{ branch.name }} <span *ngIf="branch.isRemote" class="remote-indicator">(remote)</span>
+  </li>
+</ul>
+<ng-template #noItems><p>No branches found.</p></ng-template>
