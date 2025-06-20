@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CommitChange } from '../../git'; // Adjusted path
+import { CommitChange } from '../git'; // Adjusted path
 
 @Component({
   selector: 'app-change-list',

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common'; // For pipes like DatePipe
-import { Commit } from '../../git'; // Adjusted path
+import { Commit } from '../git'; // Adjusted path
 
 @Component({
   selector: 'app-commit-list',

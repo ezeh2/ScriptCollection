@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Branch } from '../../git'; // Adjusted path
+import { Branch } from '../git'; // Adjusted path
 
 @Component({
   selector: 'app-branch-list',

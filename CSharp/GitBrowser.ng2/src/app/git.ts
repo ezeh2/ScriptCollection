@@ -31,7 +31,7 @@ export interface CommitChange {
 })
 export class GitService {
 
-  private apiUrl = '/api'; // Base API URL
+  private apiUrl = 'http://localhost:5264/api'; // Base API URL
 
   constructor(private http: HttpClient) { }
 
