@@ -1,0 +1,11 @@
+.git-browser-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 16px; /* Add some padding around the container */
+}
+
+.git-browser-column {
+  flex: 1;
+  /* Mat-card already provides some styling, so additional borders/padding might be optional */
+}

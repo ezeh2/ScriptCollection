@@ -1,0 +1,42 @@
+<mat-card-title>Repositories</mat-card-title>
+<mat-card-content>
+  <div *ngIf="repositories$ | async as repos; else loadingOrError">
+    <mat-list *ngIf="repos.length > 0; else emptyRepos">
+      <mat-list-item *ngFor="let repo of repos" (click)="onRepoClick(repo.name)" class="clickable-list-item">
+        {{ repo.name }}
+      </mat-list-item>
+    </mat-list>
+    <ng-template #emptyRepos>
+      <p>No repositories found.</p>
+    </ng-template>
+  </div>
+  <ng-template #loadingOrError>
+    <div *ngIf="(repositories$ | async) === null; else loadingSpinner" class="centered-message">
+      <p>Error loading repositories or no repositories found.</p>
+      <!-- Optionally add a retry button here -->
+    </div>
+    <ng-template #loadingSpinner>
+      <div class="centered-message">
+        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+        <p>Loading repositories...</p>
+      </div>
+    </ng-template>
+  </ng-template>
+</mat-card-content>
+
+<style>
+  .clickable-list-item {
+    cursor: pointer;
+  }
+  .clickable-list-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  .centered-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+</style>
