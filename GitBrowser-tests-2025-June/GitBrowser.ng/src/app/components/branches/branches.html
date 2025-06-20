@@ -1,0 +1,47 @@
+<mat-card-title>Branches <span *ngIf="repoName">in {{ repoName }}</span></mat-card-title>
+<mat-card-content>
+  <div *ngIf="!repoName" class="centered-message">
+    <p>Please select a repository to see its branches.</p>
+  </div>
+
+  <div *ngIf="repoName">
+    <div *ngIf="branches$ | async as branchesList; else loadingOrError">
+      <mat-list *ngIf="branchesList.length > 0; else emptyBranches">
+        <mat-list-item *ngFor="let branch of branchesList" (click)="onBranchClick(branch.name)" class="clickable-list-item">
+          {{ branch.name }}
+        </mat-list-item>
+      </mat-list>
+      <ng-template #emptyBranches>
+        <p>No branches found for {{ repoName }}.</p>
+      </ng-template>
+    </div>
+    <ng-template #loadingOrError>
+      <div *ngIf="(branches$ | async) === null; else loadingSpinner" class="centered-message">
+        <p>Error loading branches or no branches found for {{ repoName }}.</p>
+      </div>
+      <ng-template #loadingSpinner>
+        <div class="centered-message">
+          <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Loading branches...</p>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</mat-card-content>
+
+<style>
+  .clickable-list-item {
+    cursor: pointer;
+  }
+  .clickable-list-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  .centered-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+</style>

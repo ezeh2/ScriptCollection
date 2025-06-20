@@ -1,0 +1,315 @@
+
+:root {
+    --primary-color: #2c3e50; /* Dark Blue/Grey */
+    --secondary-color: #34495e; /* Slightly Lighter Blue/Grey */
+    --accent-color: #1abc9c; /* Turquoise */
+    --background-color: #ecf0f1; /* Light Grey */
+    --text-color: #333333;
+    --border-color: #bdc3c7;
+    --hover-bg-color: #34495e;
+    --hover-text-color: #ffffff;
+    --header-bg-color: #1abc9c;
+    --header-text-color: #ffffff;
+    --even-row-bg-color: #f8f9fa; /* Lighter grey for zebra striping */
+}
+
+
+html {
+  font-size: 14px;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color); /* Set global background */
+}
+
+.container
+{
+	display:grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2,auto);
+	grid-template-areas:
+		"a b d"
+		"c c c";
+	gap: 20px;
+	padding: 20px;
+}
+
+.panel {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+/* block */
+.repos
+{
+	grid-area: a;
+}
+
+/* block */
+.branches
+{
+	grid-area: b;	
+}
+
+/* block */
+.commits
+{
+	grid-area: c;
+}
+
+/* Style for repo list items */
+ul.repo-list li {
+    margin-bottom: 8px;
+}
+
+/* element of .commits */
+.logentries
+{
+}
+
+/* element of #commits */
+.logentry
+{
+	display:flex;
+}
+
+/* modifier of logentry */
+.logentry__header
+{
+	font-weight:bold;
+}
+
+.logentry__header > div
+{
+	background-color: var(--header-bg-color);
+	color: var(--header-text-color);
+	padding: 8px 5px; /* Add consistent padding */
+}
+
+/* zebra */
+.logentry:nth-of-type(even) > div
+{
+	background-color: var(--even-row-bg-color);
+}
+
+/* element of .commits */
+.logentry > div
+{
+	width:150px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: var(--border-color);
+	padding: 8px 5px; /* Add some internal padding */
+}
+
+div.logentry__commitId
+{
+	width:80px;
+}
+
+div.logentry__message
+{
+	/* last item should fill all remaining space */
+	flex-grow: 1;
+	white-space: nowrap;
+	padding-left: 10px; /* Add more left padding for the message part */
+}
+
+div.logentry:hover > div
+{
+	color: var(--hover-text-color);
+	background-color: var(--hover-bg-color);
+}
+
+.commits-stale {
+    color: lightgray; /* This could potentially also use a variable, but the spec didn't mention it */
+}
+
+/* General link styles */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+
+/* Section header styles */
+h2 {
+    color: var(--primary-color);
+    font-size: 1.5em; /* Adjust size as needed */
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px;
+}
+
+/* Placeholder messages for empty sections */
+.branches:empty::before,
+.commits:empty::before {
+    content: "Select a repository to see branches.";
+    display: block;
+    padding: 20px;
+    color: var(--text-color);
+    font-style: italic;
+    text-align: center;
+}
+
+.commits:empty::before {
+    content: "Select a branch to see commits.";
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Single column */
+        grid-template-areas:
+            "a" /* Repos */
+            "b" /* Branches */
+            "c"; /* Commits */
+        gap: 15px; /* Optionally adjust gap for smaller screens */
+        padding: 15px; /* Optionally adjust padding for smaller screens */
+    }
+
+    .repos, .branches, .commits {
+        /* Adjust padding if necessary for smaller screens, though the container padding might be enough */
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.3em; /* Slightly smaller headers on small screens */
+    }
+
+    /* Adjust log entry display for very narrow screens if necessary.
+       For example, reduce padding or hide less critical information.
+       For now, let's ensure the flex layout of logentry doesn't break.
+       The `white-space: nowrap` on `div.logentry__message` might be an issue.
+       Let's allow it to wrap on small screens. */
+    .logentry {
+        flex-direction: column; /* Stack log entry items vertically */
+    }
+
+    .logentry > div {
+        width: auto; /* Allow divs within logentry to take full width */
+        border-bottom: 1px solid var(--border-color); /* Add border between stacked items */
+        border-top-width: 0; /* Remove top border as bottom border serves separation */
+    }
+
+    .logentry > div:first-child {
+         border-top-width: 1px; /* Keep top border for the first item */
+    }
+
+    div.logentry__message {
+        white-space: normal; /* Allow message to wrap */
+        word-break: break-all; /* Break long words if necessary */
+    }
+}
+
+/* Styling for the new 'Changes' panel */
+.changes {
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.changes h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.changes-list {
+    margin-top: 10px;
+}
+
+.change-entry {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; /* For aligning status and filename */
+    align-items: center;
+}
+
+.change-entry:last-child {
+    border-bottom: none;
+}
+
+.change-status-added {
+    color: green;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px; /* Give it some space */
+    display: inline-block;
+}
+
+.change-status-modified {
+    color: orange;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-deleted {
+    color: red;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-renamed {
+    color: blue;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-status-copied {
+    color: purple;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 70px;
+    display: inline-block;
+}
+
+.change-filename {
+    font-family: monospace; /* Good for filenames */
+}
+
+.changes.changes-panel-pending .change-entry {
+    opacity: 0.5;
+}
+
+/* Style for loading/error messages within .changes */
+.changes p {
+	grid-area: d;
+    font-style: italic;
+    color: #555;
+}
+
+/* Branch styling */
+.branch-list .local-branch a {
+    color: blue;
+}
+
+.branch-list .remote-branch a {
+    color: green;
+}
+
+/* Legend styling - if not already handled by inline styles in the cshtml */
+/* The inline styles provided for the legend in cshtml are specific for simplicity,
+   but if a more robust CSS approach is preferred, define them here and remove inline styles.
+   For now, the inline styles in the cshtml are sufficient.
+   If further styling for the legend items themselves (e.g. font) is needed, add here.
+   e.g. #branch-legend li { font-style: italic; }
+*/
+
+/* Ensure branch links are not overridden by general link styles if they are too generic */
+.branch-list a.branch-link {
+    text-decoration: none; /* Example: ensure no underline if not desired */
+}
+
+.branch-list a.branch-link:hover {
+    text-decoration: underline; /* Example: underline on hover */
+}

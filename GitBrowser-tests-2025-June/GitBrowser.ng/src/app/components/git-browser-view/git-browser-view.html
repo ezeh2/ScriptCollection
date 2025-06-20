@@ -1,0 +1,27 @@
+<div class="git-browser-container">
+  <mat-card class="git-browser-column">
+    <app-repositories (repoSelected)="onRepoSelected($event)"></app-repositories>
+  </mat-card>
+
+  <mat-card class="git-browser-column">
+    <app-branches
+      [repoName]="selectedRepoName"
+      (branchSelected)="onBranchSelected($event)">
+    </app-branches>
+  </mat-card>
+
+  <mat-card class="git-browser-column">
+    <app-commits
+      [repoName]="selectedRepoName"
+      [branchName]="selectedBranchName"
+      (commitSelected)="onCommitSelected($event)">
+    </app-commits>
+  </mat-card>
+
+  <mat-card class="git-browser-column">
+    <app-changes
+      [repoName]="selectedRepoName"
+      [commitSha]="selectedCommitSha">
+    </app-changes>
+  </mat-card>
+</div>

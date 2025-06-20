@@ -1,0 +1,59 @@
+<mat-card-title>Commits <span *ngIf="repoName && branchName">in {{ repoName }}/{{ branchName }}</span></mat-card-title>
+<mat-card-content>
+  <div *ngIf="!repoName || !branchName" class="centered-message">
+    <p>Please select a repository and branch to see commits.</p>
+  </div>
+
+  <div *ngIf="repoName && branchName">
+    <div *ngIf="commits$ | async as commitsList; else loadingOrError">
+      <mat-list *ngIf="commitsList.length > 0; else emptyCommits">
+        <mat-list-item *ngFor="let commit of commitsList" (click)="onCommitClick(commit.sha)" class="clickable-list-item">
+          <div matListItemTitle>{{ commit.commit.message.split('\\n')[0] }}</div>
+          <div matListItemLine>
+            <small>{{ commit.sha.substring(0, 7) }} by {{ commit.commit.author.name || 'Unknown' }} on {{ commit.commit.author.date | date:'short' }}</small>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <ng-template #emptyCommits>
+        <p>No commits found for {{ repoName }}/{{ branchName }}.</p>
+      </ng-template>
+    </div>
+    <ng-template #loadingOrError>
+      <div *ngIf="(commits$ | async) === null; else loadingSpinner" class="centered-message">
+        <p>Error loading commits or no commits found for {{ repoName }}/{{ branchName }}.</p>
+      </div>
+      <ng-template #loadingSpinner>
+        <div class="centered-message">
+          <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Loading commits...</p>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</mat-card-content>
+
+<style>
+  .clickable-list-item {
+    cursor: pointer;
+  }
+  .clickable-list-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  .centered-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+  /* Ensure list items have enough height for two lines */
+  :host ::ng-deep .mat-mdc-list-item .mdc-list-item__content {
+    height: auto !important; /* Override default height if necessary */
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  :host ::ng-deep .mat-mdc-list-item .mat-mdc-list-item-line {
+    white-space: normal !important;
+  }
+</style>

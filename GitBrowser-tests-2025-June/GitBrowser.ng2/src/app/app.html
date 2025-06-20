@@ -1,0 +1,59 @@
+<div class="container">
+  <header>
+    <h1>{{ title }}</h1>
+  </header>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p><strong>Error:</strong> {{ errorMessage }}</p>
+    <button (click)="errorMessage = null">Dismiss</button>
+  </div>
+
+  <div class="columns">
+    <!-- Repositories Column -->
+    <div class="column">
+      <h2>Repositories</h2>
+      <p *ngIf="isLoadingRepositories">Loading repositories...</p>
+      <app-repo-list
+        *ngIf="!isLoadingRepositories"
+        [repositories]="repositories"
+        [selectedRepository]="selectedRepository"
+        (repositorySelected)="onSelectRepository($event)">
+      </app-repo-list>
+    </div>
+
+    <!-- Branches Column -->
+    <div class="column" *ngIf="selectedRepository">
+      <h2>Branches ({{ selectedRepository.name }})</h2>
+      <p *ngIf="isLoadingBranches">Loading branches...</p>
+      <app-branch-list
+        *ngIf="!isLoadingBranches"
+        [branches]="branches"
+        [selectedBranch]="selectedBranch"
+        (branchSelected)="onSelectBranch($event)">
+      </app-branch-list>
+    </div>
+
+    <!-- Commits Column -->
+    <div class="column" *ngIf="selectedRepository && selectedBranch">
+      <h2>Commits ({{ selectedRepository.name }} / {{ selectedBranch.name }})</h2>
+      <p *ngIf="isLoadingCommits">Loading commits...</p>
+      <app-commit-list
+        *ngIf="!isLoadingCommits"
+        [commits]="commits"
+        [selectedCommit]="selectedCommit"
+        (commitSelected)="onSelectCommit($event)">
+      </app-commit-list>
+    </div>
+
+    <!-- Changes Column -->
+    <div class="column" *ngIf="selectedRepository && selectedCommit">
+      <h2>Changes for Commit {{ selectedCommit.sha.substring(0, 7) }} ({{ selectedRepository.name }})</h2>
+      <p *ngIf="isLoadingChanges">Loading changes...</p>
+      <app-change-list
+        *ngIf="!isLoadingChanges"
+        [changes]="changes">
+      </app-change-list>
+    </div>
+  </div>
+
+</div>

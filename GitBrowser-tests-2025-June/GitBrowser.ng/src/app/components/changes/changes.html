@@ -1,0 +1,65 @@
+<mat-card-title>Changes in commit <span *ngIf="commitSha">{{ commitSha!.substring(0,7) }}</span> <span *ngIf="repoName"> ({{ repoName }})</span></mat-card-title>
+<mat-card-content>
+  <div *ngIf="!repoName || !commitSha" class="centered-message">
+    <p>Please select a repository and a commit to see changes.</p>
+  </div>
+
+  <div *ngIf="repoName && commitSha">
+    <div *ngIf="changes$ | async as changesList; else loadingOrError">
+      <mat-accordion *ngIf="changesList.length > 0; else emptyChanges" multi="true">
+        <mat-expansion-panel *ngFor="let change of changesList">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ change.filename }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ change.status }} | A: {{ change.additions }}, D: {{ change.deletions }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <pre class="patch-content" *ngIf="change.patch">{{ change.patch }}</pre>
+          <p *ngIf="!change.patch" class="no-patch-message">No patch details available for this change.</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <ng-template #emptyChanges>
+        <p>No changes found in this commit.</p>
+      </ng-template>
+    </div>
+    <ng-template #loadingOrError>
+      <div *ngIf="(changes$ | async) === null; else loadingSpinner" class="centered-message">
+        <p>Error loading changes or no changes found for this commit.</p>
+      </div>
+      <ng-template #loadingSpinner>
+        <div class="centered-message">
+          <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Loading changes...</p>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</mat-card-content>
+
+<style>
+  .centered-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+  .patch-content {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto; /* Allow horizontal scrolling for long lines in patch */
+    max-height: 300px; /* Limit height and allow scrolling for long patches */
+    overflow-y: auto;
+  }
+  .no-patch-message {
+    font-style: italic;
+    color: grey;
+  }
+  .mat-expansion-panel-header {
+    font-family: Roboto, "Helvetica Neue", sans-serif; /* Ensure consistent font */
+  }
+</style>

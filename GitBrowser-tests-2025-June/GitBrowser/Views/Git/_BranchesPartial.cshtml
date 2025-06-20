@@ -1,0 +1,27 @@
+@using System.IO
+@model List<GitBranch>
+@{
+    var repoPath = ViewBag.RepoPath as string;
+    var localBranches = Model.Where(b => !b.IsRemote).ToList();
+    var remoteBranches = Model.Where(b => b.IsRemote).ToList();
+}
+
+<h3>@System.IO.Path.GetFileName(ViewBag.RepoPath)</h3>
+<h2>Local Branches</h2>
+<ul class="branch-list">
+@foreach (var branch in localBranches)
+{
+    <li class="local-branch">
+        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+    </li>
+}
+</ul>
+<h2>Remote Branches</h2>
+<ul class="branch-list">
+@foreach (var branch in remoteBranches)
+{
+    <li class="remote-branch">
+        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+    </li>
+}
+</ul>

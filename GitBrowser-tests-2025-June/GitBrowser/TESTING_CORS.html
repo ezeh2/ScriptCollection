@@ -1,0 +1,53 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CORS Test</title>
+    </head>
+    <body>
+        <h1>CORS Test for GitBrowser</h1>
+        <button onclick="fetchData()">Fetch Repos</button>
+        <pre id="output"></pre>
+
+        <script>
+            async function fetchData() {
+                const outputElement = document.getElementById('output');
+                const gitBrowserApiUrl = 'http://localhost:5264/api/repos'; // e.g., http://localhost:5000/api/repos
+
+                outputElement.textContent = 'Fetching...';
+
+                try {
+                    // Make sure the GitBrowser application is running and accessible at gitBrowserApiUrl
+                    // Ensure that there is at least one repository configured in appsettings.json for GitBrowser
+                    // For example:
+                    // "GitSettings": {
+                    //   "Repositories": [
+                    //     {
+                    //       "Name": "Test Repo",
+                    //       "Path": "/path/to/your/test/git/repo"
+                    //     }
+                    //   ]
+                    // }
+
+                    const response = await fetch(gitBrowserApiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    outputElement.textContent = JSON.stringify(data, null, 2);
+                } catch (error) {
+                    outputElement.textContent = `Error: ${error.message}\n\nCheck the browser console (F12) for more details (e.g., CORS errors).`;
+                    console.error('Fetch error:', error);
+                }
+            }
+        </script>
+    </body>
+    </html>

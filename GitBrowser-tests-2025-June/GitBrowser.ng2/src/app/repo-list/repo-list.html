@@ -1,0 +1,8 @@
+<ul *ngIf="repositories.length > 0; else noItems">
+  <li *ngFor="let repo of repositories"
+      (click)="onSelect(repo)"
+      [class.selected]="repo === selectedRepository">
+    {{ repo.name }}
+  </li>
+</ul>
+<ng-template #noItems><p>No repositories found.</p></ng-template>

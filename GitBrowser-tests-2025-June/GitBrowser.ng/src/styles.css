@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fafafa; /* A light grey background can be nice */
+}
+
+/* Add some default padding if content directly touches body,
+   but app-root and components might handle their own padding.
+   This is optional and depends on overall layout.
+   For now, the components add padding via mat-card or specific styles.
+*/
+
+/* Global styles for clickable list items for consistency if not overridden */
+.clickable-list-item {
+  cursor: pointer;
+}
+.clickable-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04); /* Standard Material hover */
+}
+
+.centered-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: #666; /* Lighter text for messages */
+}

@@ -1,0 +1,25 @@
+@model List<GitCommit>
+
+<h4>@ViewBag.RepoName - @ViewBag.BranchName</h4>
+<h2>Commits</h2>
+<div class="logentries">
+    <div class="logentry logentry__header">
+        <div class="logentry__commitId">Commit Id</div>
+        <div>AuthorDate</div>    
+        <div>Author</div>
+        <div>CommitterDate</div>    
+        <div>Committer</div>        
+        <div class="logentry__message">Message</div>
+    </div>
+@foreach (var commit in Model)
+{
+    <div class="logentry">
+        <div class="logentry__commitId">@Html.Encode(commit.Sha.Substring(0, 7))</div>
+        <div>@Html.Encode(commit.AuthorDate)</div>    
+        <div>@Html.Encode(commit.Author)</div>
+        <div>@Html.Encode(commit.CommitterDate)</div>    
+        <div>@Html.Encode(commit.Committer)</div>        
+        <div class="logentry__message" title="@commit.Message">@Html.Encode(commit.MessageShort)</div>
+    </div>
+}
+</div>

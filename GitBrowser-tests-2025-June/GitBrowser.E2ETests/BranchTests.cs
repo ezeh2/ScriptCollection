@@ -1,0 +1,95 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Playwright;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GitBrowser.E2ETests
+{
+    [TestClass]
+    public class BranchTests : WebDriverFixture
+    {
+        [TestMethod]
+        public async Task TestListBranchesAndNavigateToCommits()
+        {
+            // Navigate to the home page
+            await Page.GotoAsync(BaseUrl);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Click on the first repository link (assuming at least one repo exists)
+            var repoLinks = (await Page.QuerySelectorAllAsync("#repo-list li a")).ToList();
+            Assert.IsTrue(repoLinks.Any(), "No repositories found to test branch listing.");
+            await repoLinks.First().ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle); // Wait for branches to load
+
+            // Assert that the branch list is displayed
+            var branchList = await Page.QuerySelectorAsync("#branch-list");
+            Assert.IsNotNull(branchList, "Branch list (#branch-list) should be loaded.");
+
+            var branchLinks = (await Page.QuerySelectorAllAsync("#branch-list li a")).ToList();
+            if (!branchLinks.Any())
+            {
+                // If there are no branches, we can't test navigation to commits.
+                // This might be a valid state for some repos.
+                // Consider adding a specific test repo with known branches for more robust testing.
+                Assert.Inconclusive("No branches found in the first repository to test commit navigation. Skipping further checks.");
+                return;
+            }
+
+            // Get the name of the first branch
+            var firstBranchLink = branchLinks.First();
+            var branchName = await firstBranchLink.InnerTextAsync();
+            Assert.IsFalse(string.IsNullOrEmpty(branchName), "Branch name should not be empty.");
+
+            // Click on the first branch link
+            await firstBranchLink.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle); // Wait for commits to load
+
+            // Assert that the commit log for the selected branch is loaded
+            var commitLog = await Page.QuerySelectorAsync(".logentries"); // Using class from _LogPartial.cshtml
+            Assert.IsNotNull(commitLog, "Commit log (.logentries) should be loaded after clicking a branch.");
+
+            var commitEntries = (await Page.QuerySelectorAllAsync(".logentries .logentry")).ToList();
+            // Check if header row + at least one commit is present, or just header if no commits
+            Assert.IsTrue(commitEntries.Count() > 0, "Commit log should have at least a header row.");
+        }
+
+        [TestMethod]
+        public async Task TestDisplayLocalAndRemoteBranchIndicators()
+        {
+            // Navigate to the home page
+            await Page.GotoAsync(BaseUrl);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Click on the first repository link
+            var repoLinks = (await Page.QuerySelectorAllAsync("#repo-list li a")).ToList();
+            Assert.IsTrue(repoLinks.Any(), "No repositories found.");
+            await repoLinks.First().ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle); // Wait for branches to load
+
+            // Assert that the branch list is displayed
+            var branchList = await Page.QuerySelectorAsync("#branch-list");
+            Assert.IsNotNull(branchList, "Branch list (#branch-list) should be loaded.");
+
+            var branchItems = (await Page.QuerySelectorAllAsync("#branch-list li")).ToList();
+            Assert.IsTrue(branchItems.Any(), "No branches found in the list. Test requires a repo with branches.");
+
+            bool foundLocal = false;
+            bool foundRemote = false;
+            foreach (var item in branchItems)
+            {
+                var textContent = await item.InnerTextAsync();
+                if (textContent.Contains(" (Local)"))
+                {
+                    foundLocal = true;
+                }
+                if (textContent.Contains(" (Remote)"))
+                {
+                    foundRemote = true;
+                }
+            }
+
+            Assert.IsTrue(foundLocal, "Expected to find at least one branch marked as '(Local)'. Ensure the test repository has local branches.");
+            Assert.IsTrue(foundRemote, "Expected to find at least one branch marked as '(Remote)'. Ensure the test repository has remote branches.");
+        }
+    }
+}
