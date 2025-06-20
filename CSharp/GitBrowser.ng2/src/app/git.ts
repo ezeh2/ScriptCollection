@@ -21,9 +21,8 @@ export interface Commit {
 }
 
 export interface CommitChange {
-  filePath: string;
-  changeKind: string; // e.g., "Added", "Modified", "Deleted"
-  patch: string;
+  fileName: string;
+  status: string; // e.g., "Added", "Modified", "Deleted"
 }
 
 @Injectable({
