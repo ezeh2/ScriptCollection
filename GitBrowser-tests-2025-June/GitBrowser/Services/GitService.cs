@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions; // Added for Regex
 using LibGit2Sharp;
 using Microsoft.Extensions.Options;
 
@@ -134,6 +135,16 @@ namespace GitBrowser.Services
             {
                 // Or throw an ArgumentException, depending on desired error handling
                 return changes;
+            }
+
+            // Validate commitSha is a hex string to prevent command injection
+            // A typical git SHA is 40 chars, but can be shorter.
+            // This regex checks for 4 to 40 hexadecimal characters.
+            if (!Regex.IsMatch(commitSha, "^[0-9a-fA-F]{4,40}$"))
+            {
+                Console.Error.WriteLine($"Invalid commit SHA format: {commitSha}");
+                // Consider throwing new ArgumentException("Invalid commit SHA format.", nameof(commitSha));
+                return changes; // Return empty list for invalid SHA
             }
 
             var startInfo = new ProcessStartInfo
