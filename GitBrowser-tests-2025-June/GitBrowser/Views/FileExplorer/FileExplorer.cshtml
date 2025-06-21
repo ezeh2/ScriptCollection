@@ -2,7 +2,7 @@
 @using System.IO
 
 @{
-    ViewData["Title"] = "File Explorer - " + Model.CurrentPath;
+    ViewData["Title"] = "File Explorer - " + Html.Encode(Model.CurrentPath);
     string parentPath = null;
     if (Model.CurrentPath != null && Model.CurrentPath.TrimEnd('/').Length > 0 && Model.CurrentPath != "/") // Handle root path for Linux-like systems
     {

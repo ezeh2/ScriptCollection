@@ -12,7 +12,7 @@
 @foreach (var branch in localBranches)
 {
     <li class="local-branch">
-        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+        <a href="#" class="branch-link" data-path="@Html.AttributeEncode(repoPath)" data-branch="@Html.AttributeEncode(branch.Name)">@Html.Encode(branch.Name)</a>
     </li>
 }
 </ul>
@@ -21,7 +21,7 @@
 @foreach (var branch in remoteBranches)
 {
     <li class="remote-branch">
-        <a href="#" class="branch-link" data-path="@repoPath" data-branch="@branch.Name">@branch.Name</a>
+        <a href="#" class="branch-link" data-path="@Html.AttributeEncode(repoPath)" data-branch="@Html.AttributeEncode(branch.Name)">@Html.Encode(branch.Name)</a>
     </li>
 }
 </ul>

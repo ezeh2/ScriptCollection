@@ -6,7 +6,7 @@
 @foreach (var repo in Model)
 {
     <li>
-        <a href="#" class="repo-link" data-path="@repo.Path" title="@repo.Path">@repo.Name</a>
+        <a href="#" class="repo-link" data-path="@Html.AttributeEncode(repo.Path)" title="@Html.AttributeEncode(repo.Path)">@Html.Encode(repo.Name)</a>
     </li>
 }
 </ul>

@@ -19,7 +19,7 @@
         <div>@Html.Encode(commit.Author)</div>
         <div>@Html.Encode(commit.CommitterDate)</div>    
         <div>@Html.Encode(commit.Committer)</div>        
-        <div class="logentry__message" title="@commit.Message">@Html.Encode(commit.MessageShort)</div>
+        <div class="logentry__message" title="@Html.AttributeEncode(commit.Message)">@Html.Encode(commit.MessageShort)</div>
     </div>
 }
 </div>
