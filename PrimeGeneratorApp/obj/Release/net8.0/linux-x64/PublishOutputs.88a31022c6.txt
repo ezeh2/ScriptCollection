@@ -1,0 +1,5 @@
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/publish/PrimeGeneratorApp
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/publish/PrimeGeneratorApp.dll
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/publish/PrimeGeneratorApp.deps.json
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/publish/PrimeGeneratorApp.runtimeconfig.json
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/publish/PrimeGeneratorApp.pdb

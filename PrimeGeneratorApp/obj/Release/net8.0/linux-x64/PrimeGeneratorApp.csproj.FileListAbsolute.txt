@@ -1,0 +1,15 @@
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/PrimeGeneratorApp
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/PrimeGeneratorApp.deps.json
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/PrimeGeneratorApp.runtimeconfig.json
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/PrimeGeneratorApp.dll
+/app/PrimeGeneratorApp/bin/Release/net8.0/linux-x64/PrimeGeneratorApp.pdb
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.GeneratedMSBuildEditorConfig.editorconfig
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.AssemblyInfoInputs.cache
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.AssemblyInfo.cs
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.csproj.CoreCompileInputs.cache
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.sourcelink.json
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.dll
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/refint/PrimeGeneratorApp.dll
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.pdb
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/PrimeGeneratorApp.genruntimeconfig.cache
+/app/PrimeGeneratorApp/obj/Release/net8.0/linux-x64/ref/PrimeGeneratorApp.dll
