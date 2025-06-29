@@ -1,0 +1,15 @@
+/app/ExpressionCalculator/bin/Debug/net8.0/ExpressionCalculator
+/app/ExpressionCalculator/bin/Debug/net8.0/ExpressionCalculator.deps.json
+/app/ExpressionCalculator/bin/Debug/net8.0/ExpressionCalculator.runtimeconfig.json
+/app/ExpressionCalculator/bin/Debug/net8.0/ExpressionCalculator.dll
+/app/ExpressionCalculator/bin/Debug/net8.0/ExpressionCalculator.pdb
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.GeneratedMSBuildEditorConfig.editorconfig
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.AssemblyInfoInputs.cache
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.AssemblyInfo.cs
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.csproj.CoreCompileInputs.cache
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.sourcelink.json
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.dll
+/app/ExpressionCalculator/obj/Debug/net8.0/refint/ExpressionCalculator.dll
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.pdb
+/app/ExpressionCalculator/obj/Debug/net8.0/ExpressionCalculator.genruntimeconfig.cache
+/app/ExpressionCalculator/obj/Debug/net8.0/ref/ExpressionCalculator.dll
