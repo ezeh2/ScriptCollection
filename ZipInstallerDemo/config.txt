@@ -1,0 +1,4 @@
+;!@Install@!UTF-8!
+Title="Zip Installer Demo"
+RunProgram="hello.cmd"
+;!@InstallEnd@!
