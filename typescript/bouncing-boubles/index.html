@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Bouncing Boubles</title>
+<style>
+  canvas { border: 1px solid #000; image-rendering: pixelated; }
+  body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #ddd; }
+</style>
+</head>
+<body>
+<canvas id="game" width="640" height="400"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script>
+  require(["dist/main"], function () {
+    console.log("main.ts loaded");
+  });
+</script>
+</body>
+</html>
