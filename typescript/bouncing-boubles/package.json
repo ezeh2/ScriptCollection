@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "npm run build"
+    "test": "npm run build",
+	"x": "npx http-server . -p 8080"
   },
   "devDependencies": {
     "typescript": "^5.4.0"
