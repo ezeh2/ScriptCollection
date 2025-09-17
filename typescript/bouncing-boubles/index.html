@@ -10,6 +10,11 @@
 </head>
 <body>
 <canvas id="game" width="640" height="400"></canvas>
-<script type="module" src="dist/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script>
+  require(["dist/main"], function () {
+    console.log("main.ts loaded");
+  });
+</script>
 </body>
 </html>
