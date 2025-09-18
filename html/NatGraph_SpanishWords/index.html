@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spanish↔English Flashcards</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; }
+    body { margin: 24px; display: grid; gap: 16px; }
+    .card { border: 1px solid #ccc; border-radius: 12px; padding: 24px; text-align: center; font-size: 2rem; min-height: 120px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    button { padding: 10px 16px; border-radius: 10px; border: 1px solid #aaa; background: #f7f7f7; cursor: pointer; }
+    button.primary { border-color:#4a7; }
+    details { border:1px solid #eee; border-radius:10px; padding:10px; }
+    table { width:100%; border-collapse:collapse; font-size:0.95rem; }
+    th, td { border:1px solid #ddd; padding:6px 8px; }
+    input, select { padding:8px; border:1px solid #bbb; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <h1>Spanish ↔ English Flashcards</h1>
+
+  <div class="row">
+    <label>Direction:
+      <select id="direction">
+        <option value="es-en">Spanish → English</option>
+        <option value="en-es">English → Spanish</option>
+      </select>
+    </label>
+    <label>Mode:
+      <select id="mode">
+        <option value="new">New/Unseen</option>
+        <option value="learning">Learning</option>
+        <option value="known">Known</option>
+        <option value="all">All</option>
+      </select>
+    </label>
+    <button id="reset">Reset Progress</button>
+  </div>
+
+  <div id="card" class="card" title="Click to flip"></div>
+
+  <div class="row">
+    <button id="again">Again</button>
+    <button id="got" class="primary">Got it</button>
+    <button id="skip">Skip</button>
+    <input id="reveal" type="checkbox" /> <label for="reveal">Auto-reveal answer on flip</label>
+  </div>
+
+  <details>
+    <summary>Add / manage words</summary>
+    <div class="row">
+      <input id="es" placeholder="Spanish (e.g., Vivir)" />
+      <input id="en" placeholder="English (e.g., To live)" />
+      <button id="add">Add</button>
+    </div>
+    <table id="tbl"><thead><tr><th>Spanish</th><th>English</th><th>Status</th><th>Actions</th></tr></thead><tbody></tbody></table>
+  </details>
+
+  <script src="app.js"></script>
+</body>
+</html>
