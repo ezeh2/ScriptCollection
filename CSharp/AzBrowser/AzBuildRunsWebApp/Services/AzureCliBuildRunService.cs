@@ -61,8 +61,8 @@ public sealed class AzureCliBuildRunService : IAzureBuildRunService
             throw new InvalidOperationException("Failed to start Azure CLI process.");
         }
 
-        await using var output = process.StandardOutput;
-        await using var error = process.StandardError;
+        using var output = process.StandardOutput;
+        using var error = process.StandardError;
 
         var outputTask = output.ReadToEndAsync(cancellationToken);
         var errorTask = error.ReadToEndAsync(cancellationToken);

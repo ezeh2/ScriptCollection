@@ -8,8 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.config">
+    <None Update="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 </Project>
