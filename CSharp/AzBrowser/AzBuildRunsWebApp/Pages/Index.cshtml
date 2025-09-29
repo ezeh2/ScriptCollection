@@ -1,0 +1,46 @@
+@page
+@model AzBuildRunsWebApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Azure Build Runs";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="error">@Model.ErrorMessage</div>
+}
+else if (Model.BuildRuns.Count == 0)
+{
+    <p>No build runs found for the configured filters.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Build ID</th>
+                    <th>Build run name</th>
+                    <th>Started by</th>
+                    <th>Status</th>
+                    <th>Azure DevOps link</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var run in Model.BuildRuns)
+                {
+                    <tr>
+                        <td>@run.Id</td>
+                        <td>@run.Name</td>
+                        <td>@run.RequestedBy</td>
+                        <td>@run.Status</td>
+                        <td>
+                            <a href="@run.WebLink" target="_blank" rel="noopener noreferrer">Open in Azure DevOps</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
