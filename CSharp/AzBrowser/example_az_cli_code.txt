@@ -1,0 +1,5 @@
+$_pipelineRuns  = az pipelines runs list --org $organization --project $project --requested-for $user = "ereutlinger@ctc.ch" --output Json 
+$pipelineRuns = $_pipelineRuns | ConvertFrom-json
+$pipelineRuns | Sort-Object -Descending -Property startTime | Select-Object {$_.id, $_.startTime,  $_.definition.name, $_.requestedFor.displayName, $_.result } 
+
+
