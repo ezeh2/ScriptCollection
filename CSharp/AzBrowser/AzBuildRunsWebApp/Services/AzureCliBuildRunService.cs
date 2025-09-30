@@ -104,13 +104,13 @@ public sealed class AzureCliBuildRunService : IAzureBuildRunService
 
     private (string Organization, string Project, string User) LoadSettings()
     {
-        var organization = _configuration["appSettings:Organization"] ?? _configuration["Organization"];
-        var project = _configuration["appSettings:Project"] ?? _configuration["Project"];
-        var user = _configuration["appSettings:User"] ?? _configuration["User"];
+        var organization = _configuration["AzureDevOps:Organization"];
+        var project = _configuration["AzureDevOps:Project"];
+        var user = _configuration["AzureDevOps:User"];
 
         if (string.IsNullOrWhiteSpace(organization) || string.IsNullOrWhiteSpace(project) || string.IsNullOrWhiteSpace(user))
         {
-            throw new InvalidOperationException("Organization, Project, and User must be configured in App.config.");
+            throw new InvalidOperationException("Organization, Project, and User must be configured in appsettings.json.");
         }
 
         return (organization, project, user);
