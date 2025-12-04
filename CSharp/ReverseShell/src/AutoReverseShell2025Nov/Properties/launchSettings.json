@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoReverseShell2025Nov": {
+      "commandName": "Project",
+      "commandLineArgs": "localhost 64000"
+    }
+  }
+}
