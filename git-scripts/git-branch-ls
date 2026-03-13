@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# List local branches sorted by last commit date (descending)
+
+git for-each-ref --sort=-committerdate refs/heads/ \
+    --format='%(color:green)%(align:20,left)(%(committerdate:relative))%(end)%(color:reset) %(HEAD) %(color:yellow)%(align:70,left)%(refname:short)%(end)%(color:reset) %(color:blue)%(align:25,left)%(authorname)%(end)%(color:reset) %(align:60,left)%(contents:subject)%(end)'
